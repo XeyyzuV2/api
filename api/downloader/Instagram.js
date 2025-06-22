@@ -1,11 +1,11 @@
 module.exports = {
     name: "Instagram Downloader",
-    desc: "Download Instagram posts, reels, stories, and IGTV",
+    desc: "Download Instagram posts, reels, and stories",
     category: "Downloader",
     params: ["url"],
     async run(req, res) {
         const url = req.query.url;
-        
+
         // Validasi input
         if (!url) {
             return res.json({
@@ -13,7 +13,7 @@ module.exports = {
                 message: "URL Instagram diperlukan"
             });
         }
-        
+
         // Validasi format URL Instagram
         if (!url.includes('instagram.com')) {
             return res.json({
@@ -21,11 +21,11 @@ module.exports = {
                 message: "URL tidak valid. Gunakan URL Instagram yang benar"
             });
         }
-        
+
         try {
             // Langsung panggil scraper yang sudah auto-loaded
             const result = await scrape.instagram(url);
-            
+
             if (result.status) {
                 res.json({
                     status: true,
@@ -38,14 +38,13 @@ module.exports = {
                     message: result.message || "Gagal mengambil data media"
                 });
             }
-            
+
         } catch (error) {
             console.error('Instagram Download Error:', error);
             res.json({
                 status: false,
-                message: "Terjadi kesalahan saat memproses media Instagram"
+                message: "Terjadi kesalahan saat memproses media"
             });
         }
     }
 };
-
