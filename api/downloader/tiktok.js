@@ -3,17 +3,19 @@ const cheerio = require("cheerio");
 const qs = require("qs");
 
 module.exports = {
-    name: "TikTok Scraper",
+    name: "TikTok Video Downloader",
     desc: "Scrape video TikTok tanpa watermark dari ssstik.io",
-    category: "Scraper",
+    category: "Downloader",
     params: ["url"],
-    
+
     async run(req, res) {
         const url = req.query.url;
         if (!url) {
             return res.status(400).json({
                 status: false,
-                message: "Parameter `url` wajib diisi"
+                statusCode: 400,
+                creator: "xeyyzuv2",
+                message: "Parameter `url` tidak ditemukan."
             });
         }
 
@@ -30,19 +32,25 @@ module.exports = {
             );
 
             const $ = cheerio.load(response.data);
-            const videoUrl = $('a[href^="https://"]').attr("href");
+            const result = $('a[href^="https://"]').attr("href");
 
-            if (!videoUrl) throw new Error("Gagal ambil video");
+            if (!result) {
+                throw new Error("Link video tidak ditemukan, mungkin diblokir");
+            }
 
             res.json({
                 status: true,
-                message: "Sukses scrape dari ssstik.io",
-                video_url: videoUrl
+                statusCode: 200,
+                creator: "xeyyzuv2",
+                message: "Berhasil mengambil link video tanpa watermark",
+                result
             });
         } catch (err) {
             res.status(500).json({
                 status: false,
-                message: "Scraping gagal",
+                statusCode: 500,
+                creator: "xeyyzuv2",
+                message: "Gagal mengambil data dari system",
                 error: err.message
             });
         }
