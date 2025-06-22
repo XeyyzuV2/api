@@ -1,38 +1,42 @@
-const tiktok = require("../lib/scrape_file/tiktok");
-
 module.exports = {
     name: "TikTok Downloader",
-    desc: "Scrape video TikTok no watermark via ssstik.io",
-    category: "Scraper",
+    desc: "Download TikTok videos without watermark",
+    category: "Downloader",
     params: ["url"],
-
     async run(req, res) {
         const url = req.query.url;
+        
+        // Validasi input
         if (!url) {
-            return res.status(400).json({
+            return res.json({
                 status: false,
-                statusCode: 400,
-                creator: "xeyyzuv2",
-                message: "Parameter `url` tidak ditemukan"
+                message: "URL TikTok diperlukan"
             });
         }
-
+        
+        // Validasi format URL TikTok
+        if (!url.includes('tiktok.com') && !url.includes('vm.tiktok.com')) {
+            return res.json({
+                status: false,
+                message: "URL tidak valid. Gunakan URL TikTok yang benar"
+            });
+        }
+        
         try {
-            const result = await tiktok.download(url);
+            // Langsung panggil scraper yang sudah auto-loaded
+            const result = await scrape.tiktok(url);
+            
             res.json({
                 status: true,
-                statusCode: 200,
-                creator: "xeyyzuv2",
-                message: "Berhasil mengambil video",
-                result
+                message: "Video berhasil diproses",
+                data: result
             });
-        } catch (err) {
-            res.status(500).json({
+            
+        } catch (error) {
+            console.error('TikTok Download Error:', error);
+            res.json({
                 status: false,
-                statusCode: 500,
-                creator: "xeyyzuv2",
-                message: "Gagal mengambil data dari TikTok",
-                error: err.message
+                message: "Terjadi kesalahan saat memproses video"
             });
         }
     }
