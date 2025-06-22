@@ -1,36 +1,45 @@
-# Xeyyzu APIs - PUBLIC DEVELOPMENT
+# 🚀 Xeyyzu APIs - Public Development
 
-**XeyyzuV2 APIs** is a simple, yet powerful and highly customizable REST API foundation. Built with Express.js, it provides developers with a solid starting point to create their own API services with minimal setup and maximum flexibility.
+**XeyyzuV2 APIs** is a lightweight, modular, and highly customizable REST API foundation built with Express.js.  
+Designed for rapid development, this project provides a clean and scalable starting point for building your own API services with minimal setup and maximum flexibility.
 
-## Features
+![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green?logo=node.js)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/status-in%20development-orange)
 
-- **Simple & Lightweight**: Easy to understand codebase with minimal dependencies
-- **Auto-Discovery**: Automatic endpoint registration
-- **Dynamic Module Loading**: Hot-reload capability for API modules
-- **Well-Organized Structure**: Category-based endpoint organization
-- **Scraper Integration**: Ready-to-use scraper module for web data extraction
-- **Network Ready**: Automatic detection of network interfaces for easier testing
+---
 
-## Requirements
+## ✨ Features
 
-- Node.js (v18 or higher)
-- NPM or Yarn
+- ⚡ **Simple & Lightweight** – Minimal dependencies and readable codebase  
+- 🔍 **Auto-Discovery** – Automatic endpoint registration from `api` folder  
+- 🔄 **Hot Reload** – Dynamic module loading for live development  
+- 📁 **Structured Organization** – Category-based routing for better maintainability  
+- 🕸️ **Scraper Integration** – Built-in scraping utilities, hot-reloadable  
+- 🌐 **Network Ready** – Detects network interfaces for easier local/LAN testing  
 
-## Quick Start
+---
 
-1. Clone the repository:
+## 📦 Requirements
+
+- **Node.js** v18 or higher  
+- **NPM** or **Yarn**
+
+---
+
+## 🚀 Quick Start
+
 ```bash
+# 1. Clone the repository
 git clone https://github.com/Xeyyzuv2/api.git
 cd api
 ```
-
-2. Install dependencies:
-```bash
+# 2. Install dependencies
+```
 npm install
 ```
-
-3. Modify the `settings.js` file:
-```javascript
+# 3. Modify settings.js:
+```
 module.exports = {
     name: {
         main: 'XeyyzuV2 APIs !!',
@@ -48,31 +57,30 @@ module.exports = {
     ]
 };
 ```
-
-4. Start the server:
-```bash
+# 4. Start the server
+```
 npm start
 ```
+🔗 Visit: http://localhost:4000
+---
 
-Visit `http://localhost:4000` to see your API in action!
 
-## Deploy to Vercel
-
-You can easily deploy your Hiuraa API to Vercel:
-
-1. Click the deploy button below:
+▲ Deploy to Vercel
+You can easily deploy to Vercel in just a few clicks:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Xeyyzuv2%2api)
 
-2. Follow the on-screen instructions
-3. Configure environment variables if needed
-4. Deploy!
 
-## Creating Endpoints
 
-Creating new endpoints is simple. Just add a JavaScript file to the `api` directory:
 
-```javascript
+---
+
+🛠 Creating Endpoints
+
+To create a new endpoint, just add a JavaScript file into the api/ directory.
+
+Example:
+```
 module.exports = {
     name: "Hello World",
     desc: "Returns a friendly greeting",
@@ -87,31 +95,52 @@ module.exports = {
     }
 };
 ```
+This creates a new route at:
+```
+GET /greetings/hello-world
+```
 
-This automatically creates an endpoint at `/greetings/hello-world` with proper documentation.
+---
 
-## Key Features Explained
+# ⚙️ Key Features Explained
+```
+🔧 Automatic Endpoint Registration
 
-### Automatic Endpoint Registration
+Auto-discovers .js files in /api and subfolders
 
-The system will automatically:
-- Discover and register all `.js` files in the `api` directory and subdirectories
-- Generate documentation based on module properties
-- Organize endpoints by categories
-- Display URLs with required parameters
+Registers routes based on module.exports metadata
 
-### Scraper Module
+Groups endpoints by category
 
-A built-in scraper system that:
-- Auto-loads from the `lib/scrape_file` directory
-- Hot-reloads on changes (every 2 seconds)
-- Provides a global `scraper` object
+Displays route and parameter info in the docs UI
+```
 
-## License
+```
+🔍 Scraper Integration
 
-[MIT License](LICENSE) - Feel free to use and modify according to your needs.
+Files inside /lib/scrape_file are loaded automatically
 
-## Author
+Supports hot-reload every 2 seconds
 
-Created by Rynn.
-Feel free to contribute, report issues, or suggest improvements!
+Provides a global scraper object accessible to endpoints
+```
+
+---
+
+# 📄 License
+
+Licensed under the MIT License.
+Feel free to modify, share, and enhance this project as needed.
+
+
+---
+*👤 Author: Rynn*
+
+*redeveloped by : Xeyyzu*
+
+---
+
+💡 Stay Connected
+
+📢 Join WhatsApp Channel for updates, changelogs, and sneak peeks.
+Have an idea? Feedback? Let’s build this together!ents!
