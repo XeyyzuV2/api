@@ -1,4 +1,4 @@
-const tiktok = require("../lib/scrape_files/tiktok");
+const tiktok = require("../lib/scrape_file/tiktok");
 
 module.exports = {
     name: "TikTok Downloader",
