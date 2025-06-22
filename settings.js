@@ -5,7 +5,7 @@ module.exports = {
     },
     description: 'Integrated API solution for your modern application development needs. Fast, secure, and reliable access.',
     icon: '/image/icon.png',
-    author: 'XeyyzuV2',
+    author: 'v0.1',
     info_url: 'https://whatsapp.com/channel/',
     links: [
         {
