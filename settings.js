@@ -1,16 +1,16 @@
 module.exports = {
     name: {
-        main: 'Hiuraa API Base !!',
-        copyright: 'Hiuraa API Base'
+        main: 'XeyyzuV2 APIs',
+        copyright: 'XeyyzuV2'
     },
     description: 'Integrated API solution for your modern application development needs. Fast, secure, and reliable access.',
     icon: '/image/icon.png',
-    author: 'Rynn',
-    info_url: 'https://whatsapp.com/channel/0029Vb9MIdiDDmFXasVPVG1t',
+    author: 'XeyyzuV2',
+    info_url: 'https://whatsapp.com/channel/',
     links: [
         {
-            name: 'WhatsApp Information Ch.',
-            url: 'https://whatsapp.com/channel/0029Vb9MIdiDDmFXasVPVG1t'
+            name: 'Channel Whatsapp',
+            url: 'https://whatsapp.com/channel/'
         }
     ]
 };
