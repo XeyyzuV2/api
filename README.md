@@ -1,6 +1,6 @@
-# Hiuraa-API-Base
+# Xeyyzu APIs - PUBLIC DEVELOPMENT
 
-**Hiuraa-API-Base** is a simple, yet powerful and highly customizable REST API foundation. Built with Express.js, it provides developers with a solid starting point to create their own API services with minimal setup and maximum flexibility.
+**XeyyzuV2 APIs** is a simple, yet powerful and highly customizable REST API foundation. Built with Express.js, it provides developers with a solid starting point to create their own API services with minimal setup and maximum flexibility.
 
 ## Features
 
@@ -33,17 +33,17 @@ npm install
 ```javascript
 module.exports = {
     name: {
-        main: 'Hiuraa API Base !!',
-        copyright: 'Hiuraa API Base'
+        main: 'XeyyzuV2 APIs !!',
+        copyright: 'XeyyzuV2'
     },
     description: 'Integrated API solution for your modern application development needs. Fast, secure, and reliable access.',
     icon: '/image/icon.png',
-    author: 'Rynn',
-    info_url: 'https://whatsapp.com/channel/0029Vb9MIdiDDmFXasVPVG1t',
+    author: 'Xeyyzu',
+    info_url: 'https://whatsapp.com/channel/xxxxxxx',
     links: [
         {
             name: 'WhatsApp Information Ch.',
-            url: 'https://whatsapp.com/channel/0029Vb9MIdiDDmFXasVPVG1t'
+            url: 'https://whatsapp.com/channel/xxxxx'
         }
     ]
 };
