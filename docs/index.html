@@ -5,158 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta id="api-description" name="description" content="Description">
     <link id="api-icon" rel="icon" href="/image/icon.png" type="image/png">
-    <title id="api-title">API Explorer</title>
+    <title id="api-title">Name</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
+                        primary: {"500": "#6366f1", "600": "#4f46e5"},
+                        dark: {"800": "#1e293b", "900": "#0f172a"},
                     },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
                 }
             }
         }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen pt-[70px] pb-10">
-    <div id="page-loader" class="page-loader bg-white">
-        <div class="loader"></div>
+<body class="bg-gray-50 min-h-screen pt-[70px] pb-10 font-sans dark:bg-dark-900">
+    <!-- Loader with backdrop blur -->
+    <div id="page-loader" class="page-loader bg-white/80 backdrop-blur-sm dark:bg-dark-900/80">
+        <div class="loader border-4 border-t-primary-500 border-gray-200 dark:border-gray-700"></div>
     </div>
-    
-    <!-- Navbar dengan glassmorphism effect -->
-    <nav class="backdrop-blur-md bg-white/80 shadow-lg py-4 px-6 md:px-10 w-full mx-auto fixed top-0 z-20 border-b border-gray-200">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="bg-gradient-to-r from-primary-600 to-purple-600 text-white p-2 rounded-lg">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">API Explorer</span>
-            </div>
-            <div class="flex items-center space-x-5">
-                <a href="#" class="text-gray-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-home"></i>
-                </a>
-                <a href="#" class="text-gray-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-book"></i>
-                </a>
-                <a href="#" class="text-gray-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-code"></i>
-                </a>
-                <a href="#" class="bg-gradient-to-r from-primary-600 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:shadow-lg transition-all">
-                    <i class="fas fa-user mr-2"></i>Login
+
+    <!-- Navbar with theme toggle -->
+    <nav class="bg-gray-800 dark:bg-dark-800 py-3 px-6 w-full fixed top-0 z-20 shadow-md">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <span class="text-white font-medium">API Dashboard</span>
+            <div class="flex gap-4">
+                <button id="theme-toggle" class="text-gray-300 hover:text-white transition">
+                    <span class="material-icons dark:hidden">dark_mode</span>
+                    <span class="material-icons hidden dark:inline">light_mode</span>
+                </button>
+                <a id="api-info" target="_blank" class="text-gray-300 hover:text-white transition">
+                    <span class="material-icons">info</span>
                 </a>
             </div>
         </div>
     </nav>
     
-    <div class="px-6 md:px-10 max-w-4xl mx-auto">
-        <div class="flex flex-row items-center mb-6 justify-between">
-            <div class="flex flex-row gap-3">
-                <a id="api-info" target="_blank">
-                    <button class="bg-white hover:bg-gray-100 p-2 rounded-full lg:hidden focus:outline-none transition-colors shadow-md hover:shadow-lg">
-                        <span class="material-icons text-primary-600 align-middle">info</span>
-                    </button>
+    <!-- Main Content -->
+    <main class="px-6 max-w-4xl mx-auto">
+        <!-- Banner with gradient -->
+        <div id="banner" class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-6 mb-8 text-white shadow-lg dark:from-dark-700 dark:to-dark-800">
+            <div class="flex items-center gap-2 mb-2">
+                <a href="https://github.com/xeyyzuv2" target="_blank" class="flex items-center text-white/80 hover:text-white transition">
+                    <i class="fab fa-github mr-2"></i>
+                    <span class="text-sm font-medium">v0.1</span>
                 </a>
             </div>
-        </div>
-        
-        <!-- Banner dengan efek modern -->
-        <div id="banner" class="relative p-8 py-10 w-full mb-8 rounded-2xl bg-white shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
-            <!-- Decorative elements -->
-            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-200 to-purple-200 rounded-bl-full opacity-30"></div>
-            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-primary-200 to-purple-200 rounded-tr-full opacity-30"></div>
             
-            <!-- Corner dots with glow effect -->
-            <div class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.7)]"></div>
-            <div class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-gradient-to-r from-primary-500 to-purple-600 rounded-full shadow-[0_0_10px_rgba(147,51,234,0.7)]"></div>
-            <div class="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-gradient-to-r from-purple-600 to-primary-500 rounded-full shadow-[0_0_10px_rgba(147,51,234,0.7)]"></div>
-            <div class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-gradient-to-r from-purple-600 to-primary-600 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.7)]"></div>
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+                <h2 id="api-name" class="text-3xl font-bold">Name</h2>
+                <div id="api-author" class="bg-white/20 text-xs font-semibold px-3 py-1 rounded-full"></div>
+            </div>
             
-            <div class="relative z-10">
-                <div class="flex items-center gap-2 mb-2">
-                    <a href="https://github.com/xeyyzuv2" target="_blank" class="flex items-center text-gray-400 hover:text-primary-600 transition-colors" style="font-size: 12px;">
-                        <i class="fab fa-github mr-2"></i>
-                        <span class="font-medium">v0.1</span>
-                    </a>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <h2 id="api-name" class="text-3xl font-bold text-gray-800">Name</h2>
-                    <div id="api-author" class="bg-gradient-to-r from-primary-600 to-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm"></div>
-                </div>
-                <p id="api-desc" class="text-sm text-gray-700 mb-5 max-w-2xl">Desc</p>
-                <div id="api-links" class="flex flex-col gap-2 text-xs text-gray-600"></div>
-                <div class="mt-5 pt-4 border-t border-gray-200 flex justify-between items-center">
-                    <span id="api-copyright" class="text-xs text-gray-500">© 2025 Name. All rights reserved.</span>
-                </div>
+            <p id="api-desc" class="text-sm text-white/90 mb-5">Desc</p>
+            
+            <div id="api-links" class="flex flex-col gap-2 text-sm"></div>
+            
+            <div class="mt-6 pt-4 border-t border-white/20 flex justify-between items-center">
+                <span id="api-copyright" class="text-xs text-white/70">© 2025 Name. All rights reserved.</span>
             </div>
         </div>
         
-        <!-- Search bar dengan efek modern -->
-        <div class="relative w-full mb-8 group">
+        <!-- Search Bar -->
+        <div class="relative w-full mb-8">
             <input 
                 type="text" 
                 id="api-search" 
-                class="w-full px-5 py-4 text-sm text-gray-700 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent pl-12 shadow-md group-hover:shadow-lg transition-all duration-300" 
-                placeholder="Search API endpoints...">
-            <span class="material-icons absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-primary-500 transition-colors">search</span>
+                class="w-full px-4 py-3 text-sm bg-white dark:bg-dark-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent pl-11 shadow-sm" 
+                placeholder="Search API...">
+            <span class="material-icons absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
         </div>
         
-        <!-- Content container dengan efek modern -->
-        <div class="tab-content rounded-xl overflow-hidden bg-white shadow-lg" id="api-content"></div>
-    </div>
+        <!-- API Content -->
+        <div id="api-content" class="space-y-5"></div>
+    </main>
     
-    <!-- Modal dengan efek modern -->
-    <div id="api-modal" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden flex items-center justify-center p-6 transition-opacity duration-200 ease-out opacity-0">
-        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-200 ease-out"></div>
-        <div class="relative z-10 bg-white shadow-2xl w-full max-w-lg mx-auto p-8 my-auto transform scale-95 opacity-0 transition-all duration-200 ease-out rounded-2xl">
-            <div class="flex justify-between items-center mb-5">
+    <!-- Modal (with improved transitions) -->
+    <div id="api-modal" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden flex items-center justify-center p-6 transition-opacity duration-300 ease-out opacity-0">
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-out opacity-0"></div>
+        <div class="relative z-10 bg-white dark:bg-dark-800 rounded-xl shadow-2xl w-full max-w-lg mx-auto p-6 my-auto transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center">
-                    <span id="api-method" class="px-3 py-1 text-xs font-medium bg-primary-100 text-primary-800 mr-3 rounded-full">GET</span>
-                    <h3 class="text-xl font-bold text-gray-800" id="modal-title">API Request</h3>
+                    <span id="api-method" class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded mr-2">GET</span>
+                    <h3 class="text-xl font-semibold dark:text-white" id="modal-title">API Request</h3>
                 </div>
-                <button id="close-modal" class="text-gray-500 hover:text-gray-700 focus:outline-none bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors">
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
                     <span class="material-icons">close</span>
                 </button>
             </div>
             
-            <div class="mb-5">
-                <p id="api-description" class="text-sm text-gray-600 mt-1">API description will appear here</p>
+            <div class="mb-4">
+                <p id="api-description" class="text-sm font-medium text-gray-600 dark:text-gray-400"></p>
             </div>
             
-            <div id="params-container" class="mb-6 bg-gray-50 p-5 rounded-xl border border-gray-100"></div>
+            <div id="params-container" class="mb-5 space-y-3"></div>
             
-            <button id="submit-api" class="bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-700 hover:to-purple-700 text-white px-5 py-3 text-sm transition duration-300 rounded-xl font-medium shadow-md hover:shadow-lg w-full">
-                <i class="fas fa-paper-plane mr-2"></i>Send Request
+            <button id="submit-api" class="w-full bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md transition-all hover:scale-[1.02]">
+                Send Request
             </button>
             
-            <div id="response-container" class="mt-6 hidden border border-gray-200 rounded-xl overflow-hidden">
-                <div class="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-200">
-                    <h4 class="text-sm font-medium text-gray-700">Response</h4>
+            <div id="response-container" class="mt-6 hidden">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-sm font-medium dark:text-white">Response</h4>
                     <div class="flex items-center">
-                        <span id="response-status" class="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 mr-2 rounded-full">200</span>
-                        <span id="response-time" class="text-xs text-gray-500">200ms</span>
+                        <span id="response-status" class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded mr-2">200</span>
+                        <span id="response-time" class="text-xs text-gray-500 dark:text-gray-400">200ms</span>
                     </div>
                 </div>
-                <pre id="response-data" class="bg-gray-50 p-5 text-sm overflow-auto max-h-72 rounded-b-xl"></pre>
+                <pre id="response-data" class="bg-gray-50 dark:bg-dark-700 p-4 text-xs rounded-md overflow-auto max-h-96"></pre>
             </div>
         </div>
     </div>
