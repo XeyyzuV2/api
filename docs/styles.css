@@ -1,40 +1,179 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:root {
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --text: #2b2d42;
+  --text-light: #6b7280;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --border: #e9ecef;
+  --success: #4cc9f0;
+  --error: #f72585;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
 
 body {
-    font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
 }
 
 body.noscroll {
-    overflow: hidden;
+  overflow: hidden;
 }
 
+/* Improved Loader */
 .page-loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 15;
-    transition: opacity 0.1s ease-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: opacity 0.3s ease-out;
 }
 
 .loader {
-    width: 40px;
-    height: 40px;
-    border: 5px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 5px solid #333;
-    animation: spin 1s linear infinite;
+  width: 48px;
+  height: 48px;
+  border: 5px solid rgba(67, 97, 238, 0.2);
+  border-radius: 50%;
+  border-top: 5px solid var(--primary);
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Improved Navigation */
+nav {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+/* Improved Banner */
+#banner {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+#banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+}
+
+/* Improved API Items */
+.api-item {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.api-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Improved Modal */
+#api-modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+#api-modal .relative {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved Buttons */
+.get-api-btn, #submit-api {
+  background-color: var(--primary);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.get-api-btn:hover, #submit-api:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Improved Inputs */
+#api-search, #params-container input {
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+#api-search:focus, #params-container input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+/* Improved Response Container */
+#response-container {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* Scrollbar Improvements */
+#response-data {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--border);
 }
 
 #response-data::-webkit-scrollbar {
-    display: none !important;
+  width: 6px;
+  height: 6px;
+}
+
+#response-data::-webkit-scrollbar-track {
+  background: var(--border);
+}
+
+#response-data::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 3px;
+}
+
+/* Status Badges */
+#response-status {
+  border-radius: 9999px;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+  
+  .px-10 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  #api-modal .relative {
+    width: 95%;
+    margin: 1rem auto;
+  }
 }
