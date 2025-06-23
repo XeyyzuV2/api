@@ -3,114 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta id="api-description" name="description" content="Description">
-    <link id="api-icon" rel="icon" href="/image/icon.png" type="image/png">
-    <title id="api-title">Name</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <title>API Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS akan ditempatkan terpisah */
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- New Loader -->
-    <div id="page-loader" class="page-loader bg-gray-50">
-        <div class="loader">
-            <div class="loader-inner"></div>
-        </div>
-    </div>
-
-    <!-- New Navigation -->
-    <nav class="bg-white shadow-sm py-4 px-6 w-full fixed top-0 z-20 border-b border-gray-100">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <span class="text-xl font-bold text-gray-800" id="api-title">API Documentation</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <a id="api-info" target="_blank" class="text-gray-600 hover:text-gray-900 transition-colors">
-                    <i class="fas fa-info-circle text-lg"></i>
-                </a>
-                <a href="https://github.com/xeyyzuv2" target="_blank" class="text-gray-600 hover:text-gray-900 transition-colors">
-                    <i class="fab fa-github text-lg"></i>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-6 pt-24 pb-12">
-        <!-- Header Section -->
-        <header class="bg-white rounded-xl shadow-sm p-8 mb-8 border border-gray-100 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-30"></div>
-            <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">v0.1</span>
-                    <span id="api-author" class="text-sm text-gray-600"></span>
-                </div>
-                <h1 id="api-name" class="text-4xl font-bold text-gray-900 mb-3">API Name</h1>
-                <p id="api-desc" class="text-gray-600 mb-6 max-w-2xl">Description of your API will appear here.</p>
-                <div id="api-links" class="flex flex-wrap gap-3"></div>
-                <div class="mt-6 pt-4 border-t border-gray-100">
-                    <span id="api-copyright" class="text-xs text-gray-500"></span>
-                </div>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 id="api-title">API Docs</h1>
+            <div class="header-actions">
+                <a id="api-info" target="_blank"><i class="icon-info"></i></a>
+                <a href="https://github.com/xeyyzuv2" target="_blank"><i class="icon-github"></i></a>
             </div>
         </header>
 
-        <!-- Search Bar -->
-        <div class="relative mb-8">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
+        <!-- Main Content -->
+        <main class="app-main">
+            <section class="api-banner">
+                <div class="api-meta">
+                    <span class="api-version">v0.1</span>
+                    <span id="api-author" class="api-author"></span>
+                </div>
+                <h2 id="api-name">API Name</h2>
+                <p id="api-desc" class="api-description">API description</p>
+                <div id="api-links" class="api-links"></div>
+                <div class="api-footer">
+                    <span id="api-copyright">© 2025</span>
+                </div>
+            </section>
+
+            <div class="search-box">
+                <input type="text" id="api-search" placeholder="Search API...">
+                <i class="icon-search"></i>
             </div>
-            <input 
-                type="text" 
-                id="api-search" 
-                class="w-full pl-10 pr-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Search endpoints...">
-        </div>
 
-        <!-- API Content -->
-        <div id="api-content" class="space-y-8"></div>
-    </main>
+            <div id="api-content" class="api-content"></div>
+        </main>
+    </div>
 
-    <!-- API Modal -->
-    <div id="api-modal" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden flex items-center justify-center p-4 transition-opacity duration-200 ease-out opacity-0">
-        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-200 ease-out"></div>
-        <div class="relative z-10 bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-auto p-6 my-auto transform scale-95 opacity-0 transition-all duration-200 ease-out">
-            <div class="flex justify-between items-start mb-4">
+    <!-- Modal -->
+    <div id="api-modal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
                 <div>
-                    <div class="flex items-center mb-2">
-                        <span id="api-method" class="px-2.5 py-1 text-xs font-semibold bg-blue-100 text-blue-800 rounded mr-3">GET</span>
-                        <h3 class="text-xl font-bold text-gray-800" id="modal-title">API Request</h3>
-                    </div>
-                    <p id="api-description" class="text-sm text-gray-600">API description will appear here</p>
+                    <span id="api-method" class="api-method">GET</span>
+                    <h3 id="modal-title">API Request</h3>
                 </div>
-                <button id="close-modal" class="text-gray-400 hover:text-gray-600 focus:outline-none transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <button id="close-modal" class="close-btn"><i class="icon-close"></i></button>
             </div>
-            
-            <div id="params-container" class="mb-6 space-y-3"></div>
-            
-            <button id="submit-api" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 text-sm font-medium rounded-lg transition-colors shadow-sm">
-                Send Request
-            </button>
-            
-            <div id="response-container" class="mt-6 hidden">
-                <div class="flex items-center justify-between mb-3">
-                    <h4 class="text-sm font-semibold text-gray-700">Response</h4>
-                    <div class="flex items-center space-x-3">
-                        <span id="response-status" class="px-2.5 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded">200</span>
-                        <span id="response-time" class="text-xs text-gray-500">200ms</span>
+            <p id="api-description" class="modal-description">Description</p>
+            <div id="params-container" class="params-container"></div>
+            <button id="submit-api" class="submit-btn">Send Request</button>
+            <div id="response-container" class="response-container hidden">
+                <div class="response-header">
+                    <h4>Response</h4>
+                    <div class="response-meta">
+                        <span id="response-status" class="status-badge success">200</span>
+                        <span id="response-time" class="response-time">0ms</span>
                     </div>
                 </div>
-                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                    <pre id="response-data" class="text-sm text-gray-800 overflow-auto max-h-96"></pre>
-                </div>
+                <pre id="response-data" class="response-data"></pre>
             </div>
         </div>
+    </div>
+
+    <!-- Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader"></div>
     </div>
 
     <script src="/script.js"></script>
