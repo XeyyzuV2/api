@@ -5,7 +5,7 @@ Designed for rapid development, this project provides a clean and scalable start
 
 ![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green?logo=node.js)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/status-in%20development-orange)
+![Status](https://img.shields.io/badge/status-⁉️-blue)
 
 ---
 
