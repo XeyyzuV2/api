@@ -4,6 +4,55 @@ document.addEventListener('DOMContentLoaded', async function () {
     const isHomePage = currentPage === '/' || currentPage.endsWith('index.html') || currentPage === '';
     const isDocumentationPage = currentPage.endsWith('documentation.html');
 
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const leftNavbar = document.getElementById('left-navbar');
+    let overlay = document.querySelector('.navbar-overlay');
+
+    if (mobileMenuButton && leftNavbar) {
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'navbar-overlay md:hidden';
+            if (leftNavbar.parentNode) {
+                 leftNavbar.parentNode.insertBefore(overlay, leftNavbar.nextSibling);
+            }
+        }
+
+        mobileMenuButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Mencegah event sampai ke document listener jika ada
+            leftNavbar.classList.toggle('navbar-mobile-open');
+            if (overlay) {
+                overlay.style.display = leftNavbar.classList.contains('navbar-mobile-open') ? 'block' : 'none';
+            }
+            // Optional: Toggle class pada body untuk mencegah scroll saat menu mobile terbuka
+            // document.body.classList.toggle('overflow-hidden', leftNavbar.classList.contains('navbar-mobile-open'));
+        });
+
+        if (overlay) {
+            overlay.addEventListener('click', function () {
+                leftNavbar.classList.remove('navbar-mobile-open');
+                overlay.style.display = 'none';
+                // document.body.classList.remove('overflow-hidden');
+            });
+        }
+
+        // Menutup navbar jika diklik di luar area navbar pada mobile
+        document.addEventListener('click', function(event) {
+            if (leftNavbar.classList.contains('navbar-mobile-open')) {
+                const isClickInsideNavbar = leftNavbar.contains(event.target);
+                const isClickOnMenuButton = mobileMenuButton.contains(event.target);
+
+                if (!isClickInsideNavbar && !isClickOnMenuButton) {
+                    leftNavbar.classList.remove('navbar-mobile-open');
+                    if (overlay) {
+                        overlay.style.display = 'none';
+                    }
+                    // document.body.classList.remove('overflow-hidden');
+                }
+            }
+        });
+    }
+
+
     // Fungsi untuk menginisialisasi elemen umum dan loader
     function initializeCommonElements(set) {
         setContent('nav-api-icon', 'src', set.icon);

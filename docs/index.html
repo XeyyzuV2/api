@@ -53,8 +53,8 @@
         }
     </style>
 </head>
-<body class="min-h-screen"> {/* Removed pt-[60px] pb-10, handled by new layout */}
-    <div id="page-loader" class="page-loader bg-gray-900"> {/* Darker loader background */}
+<body class="min-h-screen">
+    <div id="page-loader" class="page-loader bg-gray-900">
         <div class="loader"></div>
     </div>
 
@@ -75,14 +75,23 @@
         </div>
     </nav>
     
-    <div id="main-content-area">
-        <!-- Konten lama dipindahkan ke sini, kecuali banner yang mungkin diintegrasikan ke navbar atau header baru -->
-        <div class="flex flex-row items-center mb-6 justify-between">
-            <!-- Mungkin bisa dihapus atau diubah -->
-        </div>
+    <div id="main-content-area" class="relative"> <!-- Tambahkan relative untuk positioning header mobile jika diperlukan -->
+        <header class="md:hidden p-4 bg-gray-800 shadow-md flex items-center justify-between fixed top-0 left-0 right-0 z-30">
+            <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="text-lg font-semibold text-white" id="mobile-header-title">API Name</div>
+            <div class="w-8"></div> <!-- Spacer, sesuaikan lebar jika perlu agar judul terpusat atau rata -->
+        </header>
 
-        <!-- Banner mungkin tidak diperlukan lagi atau diubah bentuknya -->
-        <div id="banner" class="bg-gray-800 border border-gray-700 shadow-lg relative p-7 py-10 w-full mb-7 rounded-lg">
+        <div class="md:pt-0 pt-16"> <!-- Padding top untuk konten di bawah header mobile fixed -->
+            <!-- Konten lama (banner, search, api-content) ada di sini -->
+            <div class="flex flex-row items-center mb-6 justify-between md:flex">
+                <!-- Mungkin bisa dihapus atau diubah, atau disembunyikan di mobile jika header menggantikannya -->
+            </div>
+
+            <!-- Banner -->
+        <div id="banner" class="bg-gray-800 border border-gray-700 shadow-lg relative p-4 py-6 md:p-7 md:py-10 w-full mb-7 rounded-lg">
             <!-- Titik-titik dekoratif bisa dihilangkan atau diganti dengan border biasa -->
             <div class="flex items-center gap-2 mb-1">
                 <a href="https://github.com/xeyyzuv2" target="_blank" class="flex items-center text-gray-400 hover:text-gray-300 transition-colors" style="font-size: 12px;">

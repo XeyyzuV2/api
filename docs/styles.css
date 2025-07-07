@@ -104,7 +104,56 @@ body.noscroll {
     padding: 2.5rem; /* Increased padding p-10 */
     overflow-y: auto; /* Allow scrolling for content area only */
     height: 100vh; /* Ensure it takes full viewport height for scrolling */
+    position: relative; /* Untuk header mobile fixed agar tidak overlap jika kontennya pendek */
 }
+
+/* Wrapper untuk documentation.html agar konsisten */
+#main-content-area-wrapper {
+    flex-grow: 1;
+    position: relative; /* Untuk header mobile fixed */
+    /* padding top untuk header mobile akan dihandle oleh #main-content di dalamnya */
+}
+
+
+/* Mobile specific styles for navbar and main content */
+@media (max-width: 767px) { /* Tailwind's md breakpoint is 768px */
+    #left-navbar {
+        transform: translateX(-100%);
+        position: fixed; /* Pastikan tetap fixed untuk transisi */
+        z-index: 50; /* Di atas overlay dan header mobile */
+    }
+
+    #left-navbar.navbar-mobile-open {
+        transform: translateX(0);
+    }
+
+    #main-content-area,
+    #main-content-area-wrapper > #main-content { /* Target #main-content di dalam wrapper juga */
+        margin-left: 0;
+        padding-top: 5rem; /* Sesuaikan dengan tinggi header mobile (1rem = 4, jadi 16*4=64px + sedikit ruang) */
+    }
+
+    #main-content-area-wrapper { /* Wrapper tidak perlu margin-left */
+      margin-left: 0;
+    }
+
+    /* Header mobile akan ditampilkan menggunakan kelas md:hidden dari Tailwind */
+    /* Tombol hamburger juga dihandle Tailwind + JS */
+}
+
+/* Overlay untuk menutup navbar saat diklik */
+.navbar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 49; /* Di bawah navbar tapi di atas konten & header mobile */
+    display: none; /* Sembunyikan secara default */
+}
+/* Tidak perlu selector .navbar-mobile-open + .navbar-overlay karena JS akan handle display */
+
 
 /* Page Loader */
 .page-loader {

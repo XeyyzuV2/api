@@ -11,33 +11,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-900 text-gray-100 flex">
-    <!-- Navbar Kiri akan ditambahkan di langkah berikutnya melalui modifikasi index.html dan styles.css -->
-    <!-- Untuk saat ini, kita fokus pada konten halaman dokumentasi itu sendiri -->
+    <nav id="left-navbar" class="left-navbar-transition">
+        <!-- Konten Navbar Kiri (sama seperti di index.html) akan diisi oleh script.js atau bisa di-hardcode jika sederhana -->
+        <div class="mb-8">
+            <a href="/" class="flex items-center text-white mb-6">
+                <img id="nav-api-icon" src="/image/icon.png" alt="API Icon" class="h-8 w-8 mr-3">
+                <span id="nav-api-name" class="text-xl font-semibold">API Name</span>
+            </a>
+        </div>
+        <ul>
+            <li><a href="/" class="nav-link"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="/documentation.html" class="nav-link active"><i class="fas fa-book"></i>Documentation</a></li>
+        </ul>
+        <div class="mt-auto pt-6 border-t border-gray-700">
+             <div id="nav-api-links" class="flex flex-col gap-2 text-xs"></div>
+        </div>
+    </nav>
 
-    <div id="main-content" class="flex-1 p-10">
-        <header class="mb-10">
-            <h1 class="text-4xl font-bold text-white">API Documentation</h1>
-            <p class="text-lg text-gray-400">Panduan lengkap untuk menggunakan API kami.</p>
+    <div id="main-content-area-wrapper" class="flex-1 relative"> <!-- Wrapper baru & relative -->
+        <header class="md:hidden p-4 bg-gray-800 shadow-md flex items-center justify-between fixed top-0 left-0 right-0 z-30">
+            <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="text-lg font-semibold text-white" id="mobile-header-title-doc">Documentation</div>
+            <div class="w-8"></div> <!-- Spacer -->
         </header>
+        <div id="main-content" class="flex-1 p-4 md:p-10 pt-20 md:pt-10"> <!-- Penyesuaian padding -->
+            <header class="mb-8 md:mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-white">API Documentation</h1>
+                <p class="text-base md:text-lg text-gray-400">Panduan lengkap untuk menggunakan API kami.</p>
+            </header>
 
-        <main>
-            <section id="introduction" class="mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-3">Pendahuluan</h2>
+            <main>
+            <section id="introduction" class="mb-6 md:mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-white mb-3">Pendahuluan</h2>
                 <p class="text-gray-300">
                     Selamat datang di dokumentasi API kami. Di sini Anda akan menemukan semua informasi yang Anda butuhkan untuk berintegrasi dengan layanan kami.
                 </p>
             </section>
 
-            <section id="getting-started" class="mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-3">Memulai</h2>
+            <section id="getting-started" class="mb-6 md:mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-white mb-3">Memulai</h2>
                 <p class="text-gray-300">
                     Untuk memulai menggunakan API kami, Anda tidak memerlukan kunci API khusus untuk sebagian besar endpoint publik.
                     Cukup buat permintaan HTTP ke endpoint yang relevan seperti yang dijelaskan di bawah ini.
                 </p>
             </section>
 
-            <section id="basic-request" class="mb-8">
-                <h2 class="text-2xl font-semibold text-white mb-3">Contoh Permintaan Dasar</h2>
+            <section id="basic-request" class="mb-6 md:mb-8">
+                <h2 class="text-xl md:text-2xl font-semibold text-white mb-3">Contoh Permintaan Dasar</h2>
                 <p class="text-gray-300 mb-2">
                     Berikut adalah contoh cara membuat permintaan ke salah satu endpoint kami menggunakan JavaScript Fetch API:
                 </p>
