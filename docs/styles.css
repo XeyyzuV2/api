@@ -1,136 +1,120 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 body {
-    font-family: 'Inter', sans-serif; /* Changed font to Inter for a more modern feel */
-    display: flex;
+    font-family: 'Inter', sans-serif;
+    /* display: flex; Dihapus karena layout utama tidak lagi flex dengan sidebar kiri */
     min-height: 100vh;
-    background-color: #111827; /* bg-gray-900 from Tailwind */
-    color: #d1d5db; /* text-gray-300 from Tailwind */
-    margin: 0; /* Ensure no default margin */
+    background-color: #111827; /* bg-gray-900 */
+    color: #d1d5db; /* text-gray-300 */
+    margin: 0;
 }
 
 body.noscroll {
-    overflow: hidden;
+    overflow: hidden; /* Untuk mencegah scroll saat modal atau menu mobile aktif */
 }
 
-/* Left Navbar Styling */
+/* Hapus atau komentari gaya untuk #left-navbar dan interaksinya dengan #main-content-area */
+/*
 #left-navbar {
     width: 240px;
-    background-color: #1f2937; /* bg-gray-800 */
-    padding: 1.5rem; /* p-6 */
+    background-color: #1f2937;
+    padding: 1.5rem;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     overflow-y: auto;
-    border-right: 1px solid #374151; /* border-gray-700 */
+    border-right: 1px solid #374151;
     display: flex;
-    flex-direction: column; /* To push footer links to bottom */
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    z-index: 50;
 }
 
-#left-navbar .nav-header { /* For API Name/Icon */
-    margin-bottom: 2rem; /* More space below header */
+#left-navbar .nav-header {
+    margin-bottom: 2rem;
 }
 
 #left-navbar .nav-header a {
     display: flex;
     align-items: center;
-    color: #ffffff; /* text-white */
+    color: #ffffff;
     text-decoration: none;
 }
 
 #left-navbar #nav-api-icon {
-    height: 2rem; /* h-8 */
-    width: 2rem; /* w-8 */
-    margin-right: 0.75rem; /* mr-3 */
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.75rem;
 }
 
 #left-navbar #nav-api-name {
-    font-size: 1.25rem; /* text-xl */
-    font-weight: 600; /* font-semibold */
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 #left-navbar ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    flex-grow: 1; /* Allows .nav-footer to be pushed down */
+    flex-grow: 1;
 }
 
 #left-navbar .nav-link {
     display: block;
-    padding: 0.75rem 1rem; /* py-3 px-4 */
-    color: #9ca3af; /* text-gray-400 */
-    border-radius: 0.375rem; /* rounded-md */
-    margin-bottom: 0.5rem; /* mb-2 */
+    padding: 0.75rem 1rem;
+    color: #9ca3af;
+    border-radius: 0.375rem;
+    margin-bottom: 0.5rem;
     transition: background-color 0.2s, color 0.2s;
-    font-weight: 500; /* medium */
+    font-weight: 500;
     text-decoration: none;
 }
 
 #left-navbar .nav-link:hover,
-#left-navbar .nav-link.active { /* Assuming 'active' class will be set by JS or on current page */
-    background-color: #374151; /* bg-gray-700 */
-    color: #ffffff; /* text-white */
+#left-navbar .nav-link.active {
+    background-color: #374151;
+    color: #ffffff;
 }
 
-#left-navbar .nav-link i { /* Font Awesome icons */
-    margin-right: 0.75rem; /* mr-3 */
-    width: 1.25em; /* Ensure icons align well */
+#left-navbar .nav-link i {
+    margin-right: 0.75rem;
+    width: 1.25em;
     text-align: center;
 }
 
-#left-navbar .nav-footer { /* For external links at the bottom */
-    margin-top: auto; /* Pushes to the bottom */
-    padding-top: 1.5rem; /* pt-6 */
-    border-top: 1px solid #374151; /* border-gray-700 */
+#left-navbar .nav-footer {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid #374151;
 }
 
 #left-navbar #nav-api-links a {
-    color: #9ca3af; /* text-gray-400 */
-    font-size: 0.875rem; /* text-xs */
+    color: #9ca3af;
+    font-size: 0.875rem;
     padding: 0.25rem 0;
     display: block;
 }
 #left-navbar #nav-api-links a:hover {
-    color: #ffffff; /* text-white */
+    color: #ffffff;
 }
 
-
-/* Main Content Area Styling */
 #main-content-area {
-    margin-left: 240px; /* Should match #left-navbar width */
-    flex-grow: 1;
-    padding: 1.5rem; /* Consistent padding (p-6 Tailwind) */
-    overflow-y: auto; /* Allow scrolling for content area only */
-    height: 100vh; /* Ensure it takes full viewport height for scrolling */
-    position: relative; /* Untuk header mobile fixed agar tidak overlap jika kontennya pendek */
-    overflow-x: hidden; /* Mencegah scroll horizontal pada area konten utama */
+    margin-left: 240px;
+    overflow-x: hidden;
 }
 
-/* Wrapper untuk documentation.html agar konsisten */
 #main-content-area-wrapper {
-    flex-grow: 1;
-    position: relative; /* Untuk header mobile fixed */
-    overflow-x: hidden; /* Mencegah scroll horizontal juga di sini */
+    overflow-x: hidden;
 }
-/* Pastikan konten di documentation.html juga mendapat margin kiri di desktop dan padding yang konsisten */
-#main-content-area-wrapper > #main-content { /* Ini adalah #main-content di dalam documentation.html */
-    margin-left: 240px; /* Default untuk desktop */
-    height: 100vh;
-    overflow-y: auto;
-    /* overflow-x: hidden; sudah dihandle oleh wrapper di atas */
-    padding: 1.5rem; /* Consistent padding (p-6 Tailwind) for desktop */
-    /* Padding-top untuk mobile (pt-16) akan di-override oleh kelas Tailwind di HTML */
+#main-content-area-wrapper > #main-content {
+    margin-left: 240px;
 }
 
 
-/* Mobile specific styles for navbar and main content */
-@media (max-width: 767px) { /* Tailwind's md breakpoint is 768px */
+@media (max-width: 767px) {
     #left-navbar {
         transform: translateX(-100%);
-        position: fixed; /* Pastikan tetap fixed untuk transisi */
-        z-index: 50; /* Di atas overlay dan header mobile */
     }
 
     #left-navbar.navbar-mobile-open {
@@ -138,20 +122,16 @@ body.noscroll {
     }
 
     #main-content-area,
-    #main-content-area-wrapper > #main-content { /* Target #main-content di dalam wrapper juga */
+    #main-content-area-wrapper > #main-content {
         margin-left: 0;
-        padding-top: 5rem; /* Sesuaikan dengan tinggi header mobile (1rem = 4, jadi 16*4=64px + sedikit ruang) */
+        padding-top: 5rem;
     }
 
-    #main-content-area-wrapper { /* Wrapper tidak perlu margin-left */
+    #main-content-area-wrapper {
       margin-left: 0;
     }
-
-    /* Header mobile akan ditampilkan menggunakan kelas md:hidden dari Tailwind */
-    /* Tombol hamburger juga dihandle Tailwind + JS */
 }
 
-/* Overlay untuk menutup navbar saat diklik */
 .navbar-overlay {
     position: fixed;
     top: 0;
@@ -159,13 +139,95 @@ body.noscroll {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 49; /* Di bawah navbar tapi di atas konten & header mobile */
-    display: none; /* Sembunyikan secara default */
+    z-index: 49;
+    display: none;
 }
-/* Tidak perlu selector .navbar-mobile-open + .navbar-overlay karena JS akan handle display */
+*/
+
+/* Top Navbar Styling */
+#top-navbar {
+    /* Kelas Tailwind sudah menangani: bg-gray-800 text-white shadow-lg fixed w-full top-0 z-50 */
+    /* Tidak banyak yang perlu ditambahkan di sini kecuali override atau gaya yang sangat spesifik */
+}
+
+#top-navbar .nav-link-top {
+    /* Kelas Tailwind: px-3 py-2 rounded-md text-sm font-medium */
+    color: #d1d5db; /* text-gray-300 (default) */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#top-navbar .nav-link-top:hover {
+    background-color: #374151; /* bg-gray-700 */
+    color: #ffffff; /* text-white */
+}
+
+#top-navbar .nav-link-top.active { /* Kelas 'active' akan ditambahkan oleh JS */
+    background-color: #4b5563; /* bg-gray-600 (atau warna aksen) */
+    color: #ffffff; /* text-white */
+}
+
+/* Styling untuk Tombol Hamburger (jika perlu tambahan selain Tailwind) */
+#mobile-menu-button-top {
+    /* Kelas Tailwind sudah cukup: inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white */
+}
+
+/* Styling untuk Menu Mobile Dropdown/Panel */
+#mobile-menu-top {
+    background-color: #1f2937; /* bg-gray-800 atau sedikit lebih gelap/terang dari navbar utama */
+    /* Kelas Tailwind: md:hidden hidden px-2 pt-2 pb-3 space-y-1 sm:px-3 */
+    border-top: 1px solid #374151; /* border-gray-700, jika ingin pemisah visual */
+}
+
+#mobile-menu-top .nav-link-mobile-top {
+    /* Kelas Tailwind: block px-3 py-2 rounded-md text-base font-medium */
+    color: #d1d5db; /* text-gray-300 */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#mobile-menu-top .nav-link-mobile-top:hover {
+    background-color: #374151; /* bg-gray-700 */
+    color: #ffffff; /* text-white */
+}
+
+#mobile-menu-top .nav-link-mobile-top.active {
+    background-color: #4b5563; /* bg-gray-600 */
+    color: #ffffff; /* text-white */
+}
+
+#mobile-nav-api-links-top a {
+    color: #9ca3af; /* text-gray-400 */
+    /* Kelas Tailwind: block px-3 py-2 rounded-md text-base font-medium (jika ingin sama dengan nav link lain) */
+    /* Atau styling lebih sederhana: */
+    padding: 0.5rem 0.75rem; /* py-2 px-3 */
+    display: block;
+    font-size: 0.875rem; /* text-sm */
+}
+#mobile-nav-api-links-top a:hover {
+    color: #ffffff; /* text-white */
+    background-color: #374151; /* bg-gray-700 */
+    border-radius: 0.375rem; /* rounded-md */
+}
 
 
-/* Page Loader */
+/* Main Content Area Styling - Disederhanakan karena tidak ada sidebar kiri lagi */
+#main-content-area,
+#main-content-documentation {
+    /* padding-top untuk navbar fixed sudah dihandle di HTML (misal pt-16, pt-20) */
+    width: 100%; /* Pastikan mengambil lebar penuh */
+    /* overflow-x: hidden; Masih baik untuk dimiliki untuk mencegah overflow horizontal tak terduga */
+}
+
+/* Hapus atau komentari gaya untuk #left-navbar dan interaksinya dengan #main-content-area */
+/*
+#left-navbar { ... }
+#main-content-area { margin-left: 240px; ... }
+#main-content-area-wrapper { ... }
+#main-content-area-wrapper > #main-content { margin-left: 240px; ... }
+@media (max-width: 767px) { ... }
+.navbar-overlay { ... }
+*/
+
+/* Page Loader (tetap sama) */
 .page-loader {
     position: fixed;
     top: 0;

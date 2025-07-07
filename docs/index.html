@@ -58,37 +58,53 @@
         <div class="loader"></div>
     </div>
 
-    <nav id="left-navbar">
-        <div class="mb-8">
-            <a href="/" class="flex items-center text-white mb-6">
-                <img id="nav-api-icon" src="/image/icon.png" alt="API Icon" class="h-8 w-8 mr-3">
-                <span id="nav-api-name" class="text-xl font-semibold">API Name</span>
-            </a>
+    <nav id="top-navbar" class="bg-gray-800 text-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo/Nama API di Kiri -->
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <img id="nav-api-icon-top" class="h-8 w-auto mr-2" src="/image/icon.png" alt="API Icon">
+                        <span id="nav-api-name-top" class="font-semibold text-xl">API Name</span>
+                    </a>
+                </div>
+
+                <!-- Link Navigasi Desktop (Kanan) -->
+                <div class="hidden md:flex md:items-center md:space-x-4">
+                    <a href="/" id="nav-link-home" class="nav-link-top px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                    <a href="/documentation.html" id="nav-link-docs" class="nav-link-top px-3 py-2 rounded-md text-sm font-medium">Documentation</a>
+                </div>
+
+                <!-- Tombol Hamburger untuk Mobile (Kanan) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button-top" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i id="hamburger-icon" class="fas fa-bars block h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <ul>
-            <li><a href="/" class="nav-link"><i class="fas fa-home"></i>Home</a></li> <!-- Removed hardcoded 'active' class -->
-            <li><a href="/documentation.html" class="nav-link"><i class="fas fa-book"></i>Documentation</a></li>
-            <!-- Tambahkan link lain di sini jika perlu -->
-        </ul>
-        <div class="mt-auto pt-6 border-t border-gray-700">
-             <div id="nav-api-links" class="flex flex-col gap-2 text-xs"></div>
+
+        <!-- Menu Mobile (Dropdown/Panel) -->
+        <div class="md:hidden hidden" id="mobile-menu-top">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/" id="mobile-nav-link-home" class="nav-link-mobile-top block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="/documentation.html" id="mobile-nav-link-docs" class="nav-link-mobile-top block px-3 py-2 rounded-md text-base font-medium">Documentation</a>
+                <div id="mobile-nav-api-links-top" class="pt-2 mt-2 border-t border-gray-700">
+                    <!-- Link eksternal dari settings.js akan diisi di sini -->
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div id="main-content-area" class="relative"> <!-- Tambahkan relative untuk positioning header mobile jika diperlukan -->
-        <header class="md:hidden p-4 bg-gray-800 shadow-md flex items-center justify-between fixed top-0 left-0 right-0 z-30">
-            <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
-            <div class="text-lg font-semibold text-white" id="mobile-header-title">API Name</div>
-            <div class="w-8"></div> <!-- Spacer, sesuaikan lebar jika perlu agar judul terpusat atau rata -->
-        </header>
+    <!-- Konten Utama Halaman -->
+    <div id="main-content-area" class="pt-20 w-full"> <!-- Padding atas disamakan menjadi pt-20 (5rem) -->
+        <!-- <header class="md:hidden ..."> Dihapus karena navbar atas sudah mencakup header mobile -->
 
-        <div class="md:pt-0 pt-16"> <!-- Padding top untuk konten di bawah header mobile fixed -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- PEMBUNGKUS BARU untuk max-width dan centering -->
-                <!-- Konten lama (banner, search, api-content) sekarang ada di dalam pembungkus ini -->
+        <!-- <div class="md:pt-0 pt-16"> Dihapus, padding atas sekarang di #main-content-area -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8"> <!-- py-6/8 untuk padding vertikal konten -->
                 <div class="flex flex-row items-center mb-6 justify-between md:flex">
-                    <!-- Mungkin bisa dihapus atau diubah, atau disembunyikan di mobile jika header menggantikannya -->
+                    <!-- Mungkin bisa dihapus atau diubah -->
                 </div>
 
                 <!-- Banner -->

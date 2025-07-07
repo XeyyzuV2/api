@@ -4,59 +4,63 @@ document.addEventListener('DOMContentLoaded', async function () {
     const isHomePage = currentPage === '/' || currentPage.endsWith('index.html') || currentPage === '';
     const isDocumentationPage = currentPage.endsWith('documentation.html');
 
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const leftNavbar = document.getElementById('left-navbar');
-    let overlay = document.querySelector('.navbar-overlay');
+    // --- Logika untuk Top Navbar Mobile ---
+    const topMenuButton = document.getElementById('mobile-menu-button-top');
+    const topMobileMenu = document.getElementById('mobile-menu-top');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
 
-    if (mobileMenuButton && leftNavbar) {
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'navbar-overlay md:hidden';
-            if (leftNavbar.parentNode) {
-                 leftNavbar.parentNode.insertBefore(overlay, leftNavbar.nextSibling);
-            }
-        }
+    if (topMenuButton && topMobileMenu && hamburgerIcon) {
+        topMenuButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const isExpanded = topMenuButton.getAttribute('aria-expanded') === 'true' || false;
+            topMenuButton.setAttribute('aria-expanded', !isExpanded);
+            topMobileMenu.classList.toggle('hidden');
 
-        mobileMenuButton.addEventListener('click', function (event) {
-            event.stopPropagation(); // Mencegah event sampai ke document listener jika ada
-            leftNavbar.classList.toggle('navbar-mobile-open');
-            if (overlay) {
-                overlay.style.display = leftNavbar.classList.contains('navbar-mobile-open') ? 'block' : 'none';
+            // Toggle ikon hamburger/close
+            if (topMobileMenu.classList.contains('hidden')) {
+                hamburgerIcon.classList.remove('fa-times');
+                hamburgerIcon.classList.add('fa-bars');
+            } else {
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-times');
             }
-            // Optional: Toggle class pada body untuk mencegah scroll saat menu mobile terbuka
-            // document.body.classList.toggle('overflow-hidden', leftNavbar.classList.contains('navbar-mobile-open'));
         });
 
-        if (overlay) {
-            overlay.addEventListener('click', function () {
-                leftNavbar.classList.remove('navbar-mobile-open');
-                overlay.style.display = 'none';
-                // document.body.classList.remove('overflow-hidden');
-            });
-        }
-
-        // Menutup navbar jika diklik di luar area navbar pada mobile
+        // Menutup menu mobile jika diklik di luar area menu atau pada link di dalam menu
         document.addEventListener('click', function(event) {
-            if (leftNavbar.classList.contains('navbar-mobile-open')) {
-                const isClickInsideNavbar = leftNavbar.contains(event.target);
-                const isClickOnMenuButton = mobileMenuButton.contains(event.target);
+            if (!topMobileMenu.classList.contains('hidden')) {
+                const isClickInsideMenu = topMobileMenu.contains(event.target);
+                const isClickOnMenuButton = topMenuButton.contains(event.target);
 
-                if (!isClickInsideNavbar && !isClickOnMenuButton) {
-                    leftNavbar.classList.remove('navbar-mobile-open');
-                    if (overlay) {
-                        overlay.style.display = 'none';
-                    }
-                    // document.body.classList.remove('overflow-hidden');
+                if (!isClickInsideMenu && !isClickOnMenuButton) {
+                    topMobileMenu.classList.add('hidden');
+                    topMenuButton.setAttribute('aria-expanded', 'false');
+                    hamburgerIcon.classList.remove('fa-times');
+                    hamburgerIcon.classList.add('fa-bars');
                 }
             }
         });
+
+        // Menutup menu mobile jika salah satu link di menu mobile diklik
+        const mobileNavLinks = topMobileMenu.querySelectorAll('a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Tidak perlu event.stopPropagation() di sini karena kita memang ingin menu tertutup
+                topMobileMenu.classList.add('hidden');
+                topMenuButton.setAttribute('aria-expanded', 'false');
+                hamburgerIcon.classList.remove('fa-times');
+                hamburgerIcon.classList.add('fa-bars');
+            });
+        });
     }
+    // --- Akhir Logika Top Navbar Mobile ---
 
 
     // Fungsi untuk menginisialisasi elemen umum dan loader
     function initializeCommonElements(set) {
-        setContent('nav-api-icon', 'src', set.icon);
-        setContent('nav-api-name', 'textContent', set.name.main);
+        // Mengisi elemen di navbar atas baru
+        setContent('nav-api-icon-top', 'src', set.icon);
+        setContent('nav-api-name-top', 'textContent', set.name.main);
 
         const metaDescElement = document.getElementById('api-description-meta');
         if (metaDescElement) {
@@ -65,29 +69,38 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         setContent('api-title', 'textContent', set.name.main);
 
-        const navApiLinksContainer = document.getElementById('nav-api-links');
-        if (navApiLinksContainer) {
-            navApiLinksContainer.innerHTML = '';
+        // Mengisi link eksternal di menu mobile navbar atas
+        const mobileNavApiLinksContainer = document.getElementById('mobile-nav-api-links-top');
+        if (mobileNavApiLinksContainer) {
+            mobileNavApiLinksContainer.innerHTML = '';
             if (set.links?.length) {
                 set.links.forEach(link => {
                     const linkElement = document.createElement('a');
                     linkElement.href = link.url;
                     linkElement.textContent = link.name;
+                    linkElement.className = 'nav-link-mobile-top block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'; // Tambahkan kelas styling
                     linkElement.target = '_blank';
-                    navApiLinksContainer.appendChild(linkElement);
+                    mobileNavApiLinksContainer.appendChild(linkElement);
                 });
             }
         }
 
-        // Set active link in navbar
-        const navLinks = document.querySelectorAll('#left-navbar .nav-link');
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkPath = new URL(link.href).pathname;
-            if ((isHomePage && (linkPath === '/' || linkPath.endsWith('index.html')) ) || (isDocumentationPage && linkPath.endsWith('documentation.html'))) {
-                link.classList.add('active');
-            }
-        });
+        // Set active link di navbar atas (desktop dan mobile)
+        const desktopNavLinks = document.querySelectorAll('#top-navbar .nav-link-top');
+        const mobileNavLinksInMenu = document.querySelectorAll('#mobile-menu-top .nav-link-mobile-top');
+
+        function setActiveLink(links) {
+            links.forEach(link => {
+                link.classList.remove('active');
+                // Menggunakan getAttribute('href') karena link.href akan menghasilkan URL absolut
+                const linkPath = link.getAttribute('href');
+                if ((isHomePage && (linkPath === '/' || linkPath === 'index.html')) || (isDocumentationPage && linkPath === '/documentation.html')) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        setActiveLink(desktopNavLinks);
+        setActiveLink(mobileNavLinksInMenu);
     }
 
     function finalizePageLoad() {
