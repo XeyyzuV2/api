@@ -21,7 +21,7 @@
         </div>
         <ul>
             <li><a href="/" class="nav-link"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="/documentation.html" class="nav-link active"><i class="fas fa-book"></i>Documentation</a></li>
+            <li><a href="/documentation.html" class="nav-link"><i class="fas fa-book"></i>Documentation</a></li> <!-- Removed hardcoded 'active' class -->
         </ul>
         <div class="mt-auto pt-6 border-t border-gray-700">
              <div id="nav-api-links" class="flex flex-col gap-2 text-xs"></div>
@@ -36,7 +36,7 @@
             <div class="text-lg font-semibold text-white" id="mobile-header-title-doc">Documentation</div>
             <div class="w-8"></div> <!-- Spacer -->
         </header>
-        <div id="main-content" class="flex-1 p-4 md:p-10 pt-20 md:pt-10"> <!-- Penyesuaian padding -->
+        <div id="main-content" class="flex-1 p-4 pt-16 md:p-6 md:pt-6"> <!-- p-4 mobile, pt-16 mobile. p-6 desktop, pt-6 desktop -->
             <header class="mb-8 md:mb-10">
                 <h1 class="text-3xl md:text-4xl font-bold text-white">API Documentation</h1>
                 <p class="text-base md:text-lg text-gray-400">Panduan lengkap untuk menggunakan API kami.</p>

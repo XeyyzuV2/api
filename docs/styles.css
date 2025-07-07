@@ -101,7 +101,7 @@ body.noscroll {
 #main-content-area {
     margin-left: 240px; /* Should match #left-navbar width */
     flex-grow: 1;
-    padding: 2.5rem; /* Increased padding p-10 */
+    padding: 1.5rem; /* Consistent padding (p-6 Tailwind) */
     overflow-y: auto; /* Allow scrolling for content area only */
     height: 100vh; /* Ensure it takes full viewport height for scrolling */
     position: relative; /* Untuk header mobile fixed agar tidak overlap jika kontennya pendek */
@@ -111,7 +111,14 @@ body.noscroll {
 #main-content-area-wrapper {
     flex-grow: 1;
     position: relative; /* Untuk header mobile fixed */
-    /* padding top untuk header mobile akan dihandle oleh #main-content di dalamnya */
+}
+/* Pastikan konten di documentation.html juga mendapat margin kiri di desktop dan padding yang konsisten */
+#main-content-area-wrapper > #main-content { /* Ini adalah #main-content di dalam documentation.html */
+    margin-left: 240px; /* Default untuk desktop */
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1.5rem; /* Consistent padding (p-6 Tailwind) for desktop */
+    /* Padding-top untuk mobile (pt-16) akan di-override oleh kelas Tailwind di HTML */
 }
 
 
