@@ -74,7 +74,7 @@
              <div id="nav-api-links" class="flex flex-col gap-2 text-xs"></div>
         </div>
     </nav>
-    
+
     <div id="main-content-area" class="relative"> <!-- Tambahkan relative untuk positioning header mobile jika diperlukan -->
         <header class="md:hidden p-4 bg-gray-800 shadow-md flex items-center justify-between fixed top-0 left-0 right-0 z-30">
             <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
@@ -85,46 +85,49 @@
         </header>
 
         <div class="md:pt-0 pt-16"> <!-- Padding top untuk konten di bawah header mobile fixed -->
-            <!-- Konten lama (banner, search, api-content) ada di sini -->
-            <div class="flex flex-row items-center mb-6 justify-between md:flex">
-                <!-- Mungkin bisa dihapus atau diubah, atau disembunyikan di mobile jika header menggantikannya -->
-            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- PEMBUNGKUS BARU untuk max-width dan centering -->
+                <!-- Konten lama (banner, search, api-content) sekarang ada di dalam pembungkus ini -->
+                <div class="flex flex-row items-center mb-6 justify-between md:flex">
+                    <!-- Mungkin bisa dihapus atau diubah, atau disembunyikan di mobile jika header menggantikannya -->
+                </div>
 
-            <!-- Banner -->
-        <div id="banner" class="bg-gray-800 border border-gray-700 shadow-lg relative p-4 py-6 md:p-7 md:py-10 w-full mb-7 rounded-lg">
-            <!-- Titik-titik dekoratif bisa dihilangkan atau diganti dengan border biasa -->
-            <div class="flex items-center gap-2 mb-1">
-                <a href="https://github.com/xeyyzuv2" target="_blank" class="flex items-center text-gray-400 hover:text-gray-300 transition-colors" style="font-size: 12px;">
-                    <i class="fab fa-github mr-2"></i>
-                    <span class="font-medium">xeyyzuv2</span>
-                </a>
-            </div>
-            
-            <div class="flex flex-wrap items-center gap-2 mb-3">
-                <h2 id="api-name-main" class="text-3xl font-semibold text-white">Name</h2>
-                <div id="api-author" class="bg-gray-700 text-gray-200 text-xs font-semibold px-2 py-1 rounded shrink-0">by xeyyzu</div>
-            </div>
-            <p id="api-desc-main" class="text-sm text-gray-400 mb-4">Desc</p>
-            <!-- api-links dipindahkan ke navbar kiri -->
-            <div class="mt-4 pt-3 border-t border-gray-700 flex justify-between items-center">
-                <span id="api-copyright" class="text-xs text-gray-500">© 2025 Name. All rights reserved.</span>
-                <a id="api-info-main" target="_blank" class="text-gray-400 hover:text-gray-300 text-xs">
-                    <span class="material-icons text-base align-middle mr-1">info</span>Info
-                </a>
-            </div>
-        </div>
-        
-        <div class="relative w-full mb-6">
-            <input 
-                type="text" 
-                id="api-search" 
-                class="w-full px-4 py-3 text-sm bg-gray-800 text-gray-300 border border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent pl-10 rounded-md"
-                placeholder="Search API...">
-            <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">search</span>
-        </div>
-        
-        <div class="tab-content" id="api-content">
-            <!-- Konten API (daftar endpoint) akan dimuat di sini oleh script.js -->
+                <!-- Banner -->
+                <div id="banner" class="bg-gray-800 border border-gray-700 shadow-lg relative p-4 py-6 md:p-7 md:py-10 w-full mb-7 rounded-lg">
+                    <!-- Titik-titik dekoratif bisa dihilangkan atau diganti dengan border biasa -->
+                    <div class="flex items-center gap-2 mb-1">
+                        <a href="https://github.com/xeyyzuv2" target="_blank" class="flex items-center text-gray-400 hover:text-gray-300 transition-colors" style="font-size: 12px;">
+                            <i class="fab fa-github mr-2"></i>
+                            <span class="font-medium">xeyyzuv2</span>
+                        </a>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <h2 id="api-name-main" class="text-3xl font-semibold text-white">Name</h2>
+                        <div id="api-author" class="bg-gray-700 text-gray-200 text-xs font-semibold px-2 py-1 rounded shrink-0">by xeyyzu</div>
+                    </div>
+                    <p id="api-desc-main" class="text-sm text-gray-400 mb-4">Desc</p>
+                    <!-- api-links dipindahkan ke navbar kiri -->
+                    <div class="mt-4 pt-3 border-t border-gray-700 flex justify-between items-center">
+                        <span id="api-copyright" class="text-xs text-gray-500">© 2025 Name. All rights reserved.</span>
+                        <a id="api-info-main" target="_blank" class="text-gray-400 hover:text-gray-300 text-xs">
+                            <span class="material-icons text-base align-middle mr-1">info</span>Info
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative w-full mb-6">
+                    <input
+                        type="text"
+                        id="api-search"
+                        class="w-full px-4 py-3 text-sm bg-gray-800 text-gray-300 border border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent pl-10 rounded-md"
+                        placeholder="Search API...">
+                    <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">search</span>
+                </div>
+
+                <div class="tab-content" id="api-content">
+                    <!-- Konten API (daftar endpoint) akan dimuat di sini oleh script.js -->
+                </div>
+            </div> <!-- Akhir dari PEMBUNGKUS BARU -->
         </div>
     </div>
     
