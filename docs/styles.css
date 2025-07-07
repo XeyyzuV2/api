@@ -105,18 +105,21 @@ body.noscroll {
     overflow-y: auto; /* Allow scrolling for content area only */
     height: 100vh; /* Ensure it takes full viewport height for scrolling */
     position: relative; /* Untuk header mobile fixed agar tidak overlap jika kontennya pendek */
+    overflow-x: hidden; /* Mencegah scroll horizontal pada area konten utama */
 }
 
 /* Wrapper untuk documentation.html agar konsisten */
 #main-content-area-wrapper {
     flex-grow: 1;
     position: relative; /* Untuk header mobile fixed */
+    overflow-x: hidden; /* Mencegah scroll horizontal juga di sini */
 }
 /* Pastikan konten di documentation.html juga mendapat margin kiri di desktop dan padding yang konsisten */
 #main-content-area-wrapper > #main-content { /* Ini adalah #main-content di dalam documentation.html */
     margin-left: 240px; /* Default untuk desktop */
     height: 100vh;
     overflow-y: auto;
+    /* overflow-x: hidden; sudah dihandle oleh wrapper di atas */
     padding: 1.5rem; /* Consistent padding (p-6 Tailwind) for desktop */
     /* Padding-top untuk mobile (pt-16) akan di-override oleh kelas Tailwind di HTML */
 }
@@ -192,14 +195,15 @@ body.noscroll {
 }
 
 /* Styling for API items in #api-content, dark theme adjustments */
-#api-content .row .w-full { /* This is the itemDiv */
+.api-item-card { /* Selector baru untuk card API */
     background-color: #1f2937; /* bg-gray-800 */
     border: 1px solid #374151; /* border-gray-700 */
     border-radius: 0.5rem; /* rounded-lg */
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.2); /* Adjusted shadow for dark theme */
+    overflow: hidden; /* Mencegah konten internal card (seperti teks panjang tanpa wrap jika truncate gagal) meluber */
 }
 
-#api-content .heroSection { /* This is the flex items-center justify-between part */
+#api-content .heroSection { /* Styling untuk konten di dalam .api-item-card */
     background-color: transparent; /* No need for bg-gray-50 as parent is dark */
     padding: 1rem 1.5rem; /* p-4 px-6 */
     box-shadow: none; /* Removed shadow from here */
