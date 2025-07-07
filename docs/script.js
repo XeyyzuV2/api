@@ -1,147 +1,169 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    document.body.classList.add('noscroll');
-    hideLoader();
-    
-    try {
-        const endpoints = await (await fetch('/endpoints')).json();
-        const set = await (await fetch('/set')).json();
-        
-        setContent('api-icon', 'href', set.icon);
+    // Cek apakah kita berada di halaman utama (index.html) atau documentation.html
+    const currentPage = window.location.pathname;
+    const isHomePage = currentPage === '/' || currentPage.endsWith('index.html') || currentPage === '';
+    const isDocumentationPage = currentPage.endsWith('documentation.html');
+
+    // Fungsi untuk menginisialisasi elemen umum dan loader
+    function initializeCommonElements(set) {
+        setContent('nav-api-icon', 'src', set.icon);
+        setContent('nav-api-name', 'textContent', set.name.main);
+
+        const metaDescElement = document.getElementById('api-description-meta');
+        if (metaDescElement) {
+            metaDescElement.content = set.description;
+        }
+
         setContent('api-title', 'textContent', set.name.main);
-        setContent('api-description', 'content', set.description);
-        setContent('api-name', 'textContent', set.name.main);
-        setContent('api-author', 'textContent', `by ${set.author}`);
-        setContent('api-desc', 'textContent', set.description);
-        setContent('api-copyright', 'textContent', `© 2025 ${set.name.copyright}. All rights reserved.`);
-        setContent('api-info', 'href', set.info_url);
-        
-        setupApiLinks(set);
-        setupApiContent(endpoints);
-        setupApiButtonHandlers(endpoints);
-        setupSearchFunctionality();
+
+        const navApiLinksContainer = document.getElementById('nav-api-links');
+        if (navApiLinksContainer) {
+            navApiLinksContainer.innerHTML = '';
+            if (set.links?.length) {
+                set.links.forEach(link => {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = link.url;
+                    linkElement.textContent = link.name;
+                    linkElement.target = '_blank';
+                    navApiLinksContainer.appendChild(linkElement);
+                });
+            }
+        }
+
+        // Set active link in navbar
+        const navLinks = document.querySelectorAll('#left-navbar .nav-link');
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkPath = new URL(link.href).pathname;
+            if ((isHomePage && (linkPath === '/' || linkPath.endsWith('index.html')) ) || (isDocumentationPage && linkPath.endsWith('documentation.html'))) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    function finalizePageLoad() {
+        const pageLoader = document.getElementById('page-loader');
+        if (pageLoader) {
+            setTimeout(function() {
+                document.body.classList.remove('noscroll');
+                pageLoader.style.opacity = '0';
+                setTimeout(function() {
+                    pageLoader.style.display = 'none';
+                }, 300);
+            }, 500);
+        }
+    }
+    
+    document.body.classList.add('noscroll');
+
+    try {
+        const set = await (await fetch('/set')).json();
+        initializeCommonElements(set);
+
+        if (isHomePage) {
+            const endpoints = await (await fetch('/endpoints')).json();
+
+            setContent('api-name-main', 'textContent', set.name.main);
+            setContent('api-author', 'textContent', `by ${set.author}`);
+            setContent('api-desc-main', 'textContent', set.description);
+            setContent('api-copyright', 'textContent', `© ${new Date().getFullYear()} ${set.name.copyright}. All rights reserved.`);
+            setContent('api-info-main', 'href', set.info_url);
+
+            setupApiContent(endpoints);
+            setupApiButtonHandlers(endpoints);
+            setupSearchFunctionality();
+        } else if (isDocumentationPage) {
+             const currentYearSpan = document.getElementById('current-year');
+             if (currentYearSpan) {
+                 currentYearSpan.textContent = new Date().getFullYear();
+             }
+             const footerCopyrightNameSpan = document.getElementById('footer-copyright-name');
+             if (footerCopyrightNameSpan) {
+                 footerCopyrightNameSpan.textContent = set.name.copyright || 'Your Company Name';
+             }
+        }
+
     } catch (error) {
         console.error('Error loading configuration:', error);
+    } finally {
+        finalizePageLoad();
     }
     
     function setContent(id, property, value) {
         const element = document.getElementById(id);
-        if (element) element[property] = value;
-    }
-    
-    function setupApiLinks(gtw) {
-        const apiLinksContainer = document.getElementById('api-links');
-        
-        apiLinksContainer.innerHTML = '';
-        
-        if (apiLinksContainer && gtw.links?.length) {
-            gtw.links.forEach(link => {
-                const linkContainer = document.createElement('div');
-                linkContainer.className = 'flex items-center gap-2';
-                
-                const bulletPoint = document.createElement('div');
-                bulletPoint.className = `w-2 h-2 bg-gray-400 rounded-full`;
-                
-                const linkElement = document.createElement('a');
-                linkElement.href = link.url;
-                linkElement.textContent = link.name;
-                linkElement.className = 'hover:underline';
-                linkElement.target = '_blank';
-                
-                linkContainer.appendChild(bulletPoint);
-                linkContainer.appendChild(linkElement);
-                
-                apiLinksContainer.appendChild(linkContainer);
-            });
+        if (element) {
+            if (property === 'content' && element.tagName === 'META') {
+                 element.setAttribute('content', value);
+            } else {
+                 element[property] = value;
+            }
         }
     }
+
+    // Fungsi setupApiLinks sudah diintegrasikan ke initializeCommonElements dan dipindahkan ke navbar
+    // Fungsi loader (show/hide) disederhanakan dan dipanggil di awal dan akhir
     
-    const pageLoader = document.getElementById('page-loader');
-    
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            const scrollPosition = parseInt(document.body.style.top || '0') * -1;
-            document.body.classList.remove('noscroll');
-            document.body.style.top = '';
-            window.scrollTo(0, scrollPosition);
-            pageLoader.style.opacity = '0';
-            setTimeout(function() {
-                pageLoader.style.display = 'none';
-            }, 800);
-        }, 1000);
-    });
-    
-    function showLoader() {
-        const scrollPosition = window.scrollY;
-        document.body.style.top = `-${scrollPosition}px`;
-        document.body.classList.add('noscroll');
-        pageLoader.style.display = 'flex';
-        pageLoader.style.opacity = '1';
-    }
-    
-    function hideLoader() {
-        setTimeout(function() {
-            const scrollPosition = parseInt(document.body.style.top || '0') * -1;
-            document.body.classList.remove('noscroll');
-            document.body.style.top = '';
-            window.scrollTo(0, scrollPosition);
-            pageLoader.style.opacity = '0';
-            setTimeout(function() {
-                pageLoader.style.display = 'none';
-            }, 800);
-        }, 1000);
-    }
-    
+    // Fungsi setupApiContent, createApiItemElement, setupApiButtonHandlers, setupSearchFunctionality, openApiModal
+    // sebagian besar tetap sama, namun perlu dipastikan mereka hanya berjalan/relevan untuk index.html.
+    // Kelas CSS yang mereka gunakan mungkin perlu disesuaikan dengan tema gelap.
+
     function setupApiContent(gtw) {
         const apiContent = document.getElementById('api-content');
+        if (!apiContent) return; // Hanya jalankan jika elemen ada (di index.html)
+        apiContent.innerHTML = ''; // Bersihkan konten sebelum menambahkan
+
         gtw.endpoints.forEach(category => {
             const categoryHeader = document.createElement('h3');
-            categoryHeader.className = 'mb-4 text-xl font-semibold';
+            // Kelas styling untuk categoryHeader sudah ada di styles.css
             categoryHeader.textContent = category.name;
             apiContent.appendChild(categoryHeader);
     
             const row = document.createElement('div');
-            row.className = 'row';
+            row.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'; // Menggunakan grid untuk layout responsif
             apiContent.appendChild(row);
     
             const sortedItems = Object.entries(category.items)
                 .sort(([, a], [, b]) => (a.name || '').localeCompare(b.name || ''))
                 .map(([,item]) => item);
             
-            sortedItems.forEach((itemData, index) => {
+            sortedItems.forEach((itemData) => { // Hapus isLastItem karena grid menangani spacing
                 const itemName = Object.keys(itemData)[0];
                 const item = itemData[itemName];
-                const isLastItem = index === sortedItems.length - 1;
-                const itemElement = createApiItemElement(itemName, item, isLastItem);
+                const itemElement = createApiItemElement(itemName, item);
                 row.appendChild(itemElement);
             });
         });
     }
     
-    function createApiItemElement(itemName, item, isLastItem) {
+    function createApiItemElement(itemName, item) {
         const itemDiv = document.createElement('div');
-        itemDiv.className = `w-full ${isLastItem ? 'mb-5' : 'mb-2'}`;
+        // Kelas styling untuk itemDiv (card) sudah ada di styles.css
+        // `w-full mb-2` atau `mb-5` tidak lagi diperlukan karena gap pada grid
+        itemDiv.className = 'api-item-card'; // Tambahkan kelas generik jika diperlukan untuk styling lebih lanjut
         itemDiv.dataset.name = itemName || '';
         itemDiv.dataset.desc = item.desc || '';
     
+        // Struktur internal card API
+        // Kelas styling untuk heroSection, title, description, button sudah ada di styles.css
         const heroSection = document.createElement('div');
-        heroSection.className = 'flex items-center justify-between p-4 px-6 bg-gray-50 shadow-sm h-20';
+        heroSection.className = 'heroSection flex flex-col justify-between h-full p-6'; // P-6 untuk padding internal card
     
         const textContent = document.createElement('div');
-        textContent.className = 'flex-grow mr-4 overflow-hidden';
+        // textContent.className = 'flex-grow mr-4 overflow-hidden'; // Disesuaikan
         
         const title = document.createElement('h5');
-        title.className = 'text-lg font-semibold text-gray-600 truncate';
+        title.className = 'text-lg font-semibold truncate mb-1'; // Sesuaikan margin jika perlu
         title.textContent = itemName || 'Unnamed Item';
     
         const description = document.createElement('p');
-        description.className = 'text-xs font-medium text-gray-600 truncate';
+        description.className = 'text-sm font-medium truncate mb-4'; // Sesuaikan margin
         description.textContent = item.desc || 'No description';
     
         textContent.appendChild(title);
         textContent.appendChild(description);
     
         const button = document.createElement('button');
-        button.className = 'px-4 py-2 text-sm font-medium text-white bg-gray-800 w-13 h-9 flex items-center justify-center hover:bg-gray-700 transition duration-300 flex-shrink-0 get-api-btn';
+        button.className = 'get-api-btn mt-auto px-4 py-2 text-sm font-medium rounded-md transition duration-300'; // mt-auto untuk mendorong ke bawah jika card tinggi berbeda
         button.dataset.apiPath = item.path || '';
         button.dataset.apiName = itemName || '';
         button.dataset.apiDesc = item.desc || '';
@@ -155,10 +177,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     
     function setupApiButtonHandlers(gtw) {
-        document.addEventListener('click', event => {
+        // Pastikan event listener hanya ditambahkan sekali dan relevan dengan halaman
+        if (!document.getElementById('api-content')) return;
+
+        document.getElementById('main-content-area').addEventListener('click', event => {
             if (event.target.classList.contains('get-api-btn')) {
                 const { apiPath, apiName, apiDesc } = event.target.dataset;
-    
+                // Logika find currentItem tetap sama
                 const currentItem = gtw.endpoints
                     .flatMap(category => Object.values(category.items))
                     .map(itemData => {
@@ -166,7 +191,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                         return { name: itemName, ...itemData[itemName] };
                     })
                     .find(item => item.path === apiPath && item.name === apiName);
-    
                 openApiModal(apiName, apiPath, apiDesc);
             }
         });
@@ -174,158 +198,133 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     function setupSearchFunctionality() {
         const searchInput = document.getElementById('api-search');
-        if (!searchInput) return;
+        if (!searchInput) return; // Hanya jika ada di halaman
         
         let originalData = null;
         
+        // captureOriginalData dan restoreOriginalData perlu disesuaikan dengan struktur card baru jika ada perubahan signifikan
+        // Untuk saat ini, asumsikan dataset name dan desc masih ada di elemen card terluar (.api-item-card)
         function captureOriginalData() {
             const result = [];
             const categories = document.querySelectorAll('#api-content h3');
             
             categories.forEach(category => {
-                const nextElement = category.nextElementSibling;
-                if (nextElement && nextElement.classList.contains('row')) {
-                    const items = Array.from(nextElement.querySelectorAll('div[data-name]')).map(item => {
+                const rowElement = category.nextElementSibling; // Ini adalah .grid
+                if (rowElement) {
+                    const items = Array.from(rowElement.querySelectorAll('.api-item-card[data-name]')).map(item => {
                         return {
                             element: item.cloneNode(true),
                             name: item.dataset.name,
                             desc: item.dataset.desc
                         };
                     });
-                    
                     result.push({
                         categoryElement: category,
-                        rowElement: nextElement,
+                        rowElement: rowElement,
                         items: items
                     });
                 }
             });
-            
             return result;
         }
         
         function restoreOriginalData() {
             if (!originalData) return;
-            
             originalData.forEach(categoryData => {
                 categoryData.categoryElement.classList.remove('hidden');
                 const row = categoryData.rowElement;
-                row.innerHTML = '';
-                
-                categoryData.items.forEach((item, index) => {
-                    const newItem = item.element.cloneNode(true);
-                    newItem.className = index === categoryData.items.length - 1 ? 'w-full mb-5' : 'w-full mb-2';
-                    row.appendChild(newItem);
+                row.innerHTML = ''; // Clear current items
+                categoryData.items.forEach(item => {
+                    row.appendChild(item.element.cloneNode(true)); // Append original cloned items
                 });
             });
         }
         
-        originalData = captureOriginalData();
-        
+        // Panggil captureOriginalData setelah konten API dimuat
+        // Ini perlu dipastikan dipanggil setelah setupApiContent selesai
+        // Cara sederhana: panggil di akhir try block jika isHomePage
+        if (document.getElementById('api-content')) {
+             originalData = captureOriginalData();
+        }
+
         searchInput.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase().trim();
             
+            if (!originalData) originalData = captureOriginalData(); // Capture jika belum ada
+
             if (!searchTerm) {
                 restoreOriginalData();
                 return;
             }
             
-            const categories = document.querySelectorAll('#api-content h3');
-            
-            categories.forEach(category => {
-                category.classList.remove('hidden');
-            });
-            
-            categories.forEach(category => {
-                const nextElement = category.nextElementSibling;
-                if (nextElement && nextElement.classList.contains('row')) {
-                    const row = nextElement;
-                    
-                    const originalCategoryData = originalData.find(data => data.categoryElement === category);
-                    if (!originalCategoryData) return;
-                    
-                    const visibleItems = [];
-                    
-                    originalCategoryData.items.forEach(item => {
-                        const title = item.name?.toLowerCase() || '';
-                        const desc = item.desc?.toLowerCase() || '';
-                        
-                        if (title.includes(searchTerm) || desc.includes(searchTerm)) {
-                            visibleItems.push(item);
-                        }
-                    });
-                    
-                    if (visibleItems.length === 0) {
-                        category.classList.add('hidden');
-                        row.innerHTML = '';
-                        return;
+            originalData.forEach(categoryData => {
+                const visibleItems = [];
+                categoryData.items.forEach(item => {
+                    const title = item.name?.toLowerCase() || '';
+                    const desc = item.desc?.toLowerCase() || '';
+                    if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                        visibleItems.push(item.element.cloneNode(true));
                     }
-                    
-                    row.innerHTML = '';
-                    visibleItems.forEach((item, index) => {
-                        const newItem = item.element.cloneNode(true);
-                        
-                        newItem.className = 'w-full mb-2';
-                        
-                        if (index === visibleItems.length - 1) {
-                            newItem.className = 'w-full mb-5';
-                        }
-                        
-                        const button = newItem.querySelector('.get-api-btn');
-                        if (button) {
-                            button.dataset.apiPath = item.element.querySelector('.get-api-btn')?.dataset.apiPath || '';
-                            button.dataset.apiName = item.element.querySelector('.get-api-btn')?.dataset.apiName || '';
-                            button.dataset.apiDesc = item.element.querySelector('.get-api-btn')?.dataset.apiDesc || '';
-                        }
-                        
-                        row.appendChild(newItem);
+                });
+
+                if (visibleItems.length === 0) {
+                    categoryData.categoryElement.classList.add('hidden');
+                    categoryData.rowElement.innerHTML = '';
+                } else {
+                    categoryData.categoryElement.classList.remove('hidden');
+                    categoryData.rowElement.innerHTML = '';
+                    visibleItems.forEach(itemElement => {
+                        categoryData.rowElement.appendChild(itemElement);
                     });
                 }
             });
         });
     }
     
-    function openApiModal(name, endpoint, description, method) {
+    // openApiModal: Penyesuaian kelas CSS untuk input dan tombol agar konsisten dengan tema gelap
+    function openApiModal(name, endpoint, description) { // method tidak digunakan
         const modal = document.getElementById('api-modal');
         const modalBackdrop = modal.querySelector('.fixed.inset-0.bg-black');
         const modalContent = modal.querySelector('.relative.z-10');
         const closeModalBtn = document.getElementById('close-modal');
         const submitApiBtn = document.getElementById('submit-api');
         const modalTitle = document.getElementById('modal-title');
-        const apiMethod = document.getElementById('api-method');
-        const apiDescription = document.getElementById('api-description');
+        // const apiMethod = document.getElementById('api-method'); // Tidak diubah nilainya, bisa di-hardcode GET jika selalu GET
+        const apiDescriptionModal = document.getElementById('api-description'); // Ganti nama variabel agar tidak konflik
         const paramsContainer = document.getElementById('params-container');
         const responseContainer = document.getElementById('response-container');
         const responseData = document.getElementById('response-data');
         const responseStatus = document.getElementById('response-status');
         const responseTime = document.getElementById('response-time');
-        const existingUrlDisplay = document.querySelector('.urlDisplay');
         
+        const existingUrlDisplay = modalContent.querySelector('.urlDisplay'); // Cari di dalam modalContent
         if (existingUrlDisplay) {
             existingUrlDisplay.remove();
         }
+
         responseContainer.classList.add('hidden');
         responseData.innerHTML = '';
-        submitApiBtn.classList.remove('hidden');
-        paramsContainer.classList.remove('hidden');
-        paramsContainer.innerHTML = '';
+        submitApiBtn.classList.remove('hidden'); // Tampilkan tombol submit
+        paramsContainer.classList.remove('hidden'); // Tampilkan kontainer param
+        paramsContainer.innerHTML = ''; // Bersihkan parameter lama
         
         modalTitle.textContent = name;
-        apiDescription.textContent = description;
+        apiDescriptionModal.textContent = description; // Gunakan variabel baru
         
         const url = new URL(endpoint, window.location.origin);
         const urlParams = url.search ? url.search.substring(1).split('&') : [];
-        if (urlParams.length) {
+        if (urlParams.length && urlParams[0] !== "") { // Pastikan urlParams tidak kosong array [""]
             urlParams.forEach(param => {
                 const [key] = param.split('=');
                 if (key) {
                     const isOptional = key.startsWith('_');
-                    const placeholderText = `Enter ${key}${isOptional ? ' (optional)' : ''}`;
+                    const placeholderText = `Enter ${key.replace(/^_/, '')}${isOptional ? ' (optional)' : ''}`;
                     
                     const paramField = document.createElement('div');
                     paramField.className = 'mb-3';
+                    // Kelas input disesuaikan dengan tema gelap (sudah di styles.css atau Tailwind di HTML)
                     paramField.innerHTML = `
-                        <input type='text' id='param-${key}' class='w-full px-3 py-1.5 text-sm text-gray-700 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent' placeholder='${placeholderText}'>
+                        <input type='text' id='param-${key}' class='w-full px-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:border-transparent' placeholder='${placeholderText}'>
                         <div id='error-${key}' class='text-red-500 text-xs mt-1 hidden'>This field is required</div>
                     `;
                     paramsContainer.appendChild(paramField);
@@ -337,12 +336,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                 placeholderMatch.forEach(match => {
                     const paramName = match.replace(/{|}/g, '');
                     const isOptional = paramName.startsWith('_');
-                    const placeholderText = `Enter ${paramName}${isOptional ? ' (optional)' : ''}`;
+                    const placeholderText = `Enter ${paramName.replace(/^_/, '')}${isOptional ? ' (optional)' : ''}`;
                     
                     const paramField = document.createElement('div');
                     paramField.className = 'mb-3';
                     paramField.innerHTML = `
-                        <input type='text' id='param-${paramName}' class='w-full px-3 py-1.5 text-sm text-gray-700 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent' placeholder='${placeholderText}'>
+                        <input type='text' id='param-${paramName}' class='w-full px-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:border-transparent' placeholder='${placeholderText}'>
                         <div id='error-${paramName}' class='text-red-500 text-xs mt-1 hidden'>This field is required</div>
                     `;
                     paramsContainer.appendChild(paramField);
@@ -350,13 +349,18 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         }
         
+        // Jika tidak ada parameter, sembunyikan paramsContainer
+        if (paramsContainer.children.length === 0) {
+            paramsContainer.classList.add('hidden');
+        }
+
         modal.classList.remove('hidden');
         document.body.classList.add('noscroll');
         
-        modal.offsetWidth;
+        modal.offsetWidth; // Trigger reflow
         
         modal.classList.add('opacity-100');
-        modalBackdrop.classList.add('opacity-50');
+        modalBackdrop.classList.add('opacity-50'); // Atau opacity-75 jika di HTML diubah
         modalContent.classList.add('scale-100', 'opacity-100');
         
         const closeModal = function() {
@@ -367,24 +371,25 @@ document.addEventListener('DOMContentLoaded', async function () {
             setTimeout(() => {
                 modal.classList.add('hidden');
                 document.body.classList.remove('noscroll');
-            }, 300);
+            }, 300); // Sesuaikan dengan durasi transisi
         };
         
         closeModalBtn.onclick = closeModal;
-        
-        modal.addEventListener('click', function(event) {
+        modal.onclick = function(event) { // Ubah ke onclick agar bisa di-override jika modal dibuka lagi
             if (event.target === modal) {
                 closeModal();
             }
-        });
+        };
         
-        document.addEventListener('keydown', function(event) {
+        const escapeKeyListener = function(event) {
             if (event.key === 'Escape') {
                 closeModal();
+                document.removeEventListener('keydown', escapeKeyListener); // Hapus listener setelah digunakan
             }
-        }, { once: true });
+        };
+        document.addEventListener('keydown', escapeKeyListener);
         
-        submitApiBtn.onclick = async function() {
+        submitApiBtn.onclick = async function() { // Pastikan onclick di-override setiap kali modal dibuka
             let isValid = true;
             
             document.querySelectorAll('[id^="error-"]').forEach(errorElement => {
@@ -394,16 +399,18 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (paramsContainer.children.length > 0) {
                 Array.from(paramsContainer.children).forEach(paramDiv => {
                     const input = paramDiv.querySelector('input');
-                    const paramName = input.id.replace('param-', '');
-                    const paramValue = input.value.trim();
-                    const errorElement = document.getElementById(`error-${paramName}`);
-                    
-                    if (!paramName.startsWith('_') && paramValue === '') {
-                        isValid = false;
-                        errorElement.classList.remove('hidden');
-                        input.classList.add('border-red-500');
-                    } else {
-                        input.classList.remove('border-red-500');
+                    if (input) { // Pastikan input ada
+                        const paramName = input.id.replace('param-', '');
+                        const paramValue = input.value.trim();
+                        const errorElement = document.getElementById(`error-${paramName}`);
+
+                        if (!paramName.startsWith('_') && paramValue === '') {
+                            isValid = false;
+                            if(errorElement) errorElement.classList.remove('hidden');
+                            input.classList.add('border-red-500'); // Tambah kelas border error
+                        } else {
+                            input.classList.remove('border-red-500');
+                        }
                     }
                 });
             }
@@ -412,97 +419,84 @@ document.addEventListener('DOMContentLoaded', async function () {
                 return;
             }
             
-            responseContainer.classList.remove('hidden');
+            // Sembunyikan form params dan tombol submit, tampilkan loading/response
             paramsContainer.classList.add('hidden');
             submitApiBtn.classList.add('hidden');
+            responseContainer.classList.remove('hidden');
+            responseData.innerHTML = '<div class="flex justify-center items-center h-full"><div class="loader"></div></div>'; // Tampilkan loader di response
             
             const startTime = Date.now();
             try {
                 let apiUrl = endpoint;
-                
+                const queryParams = new URLSearchParams();
+
                 if (paramsContainer.children.length > 0) {
-                    Array.from(paramsContainer.children).forEach(paramDiv => {
+                     Array.from(paramsContainer.children).forEach(paramDiv => {
                         const input = paramDiv.querySelector('input');
-                        const paramName = input.id.replace('param-', '');
-                        const paramValue = input.value;
-                        
-                        if (paramName.startsWith('_') && paramValue === '') {
-                            return;
-                        }
-                        
-                        if (apiUrl.includes(`{${paramName}}`)) {
-                            apiUrl = apiUrl.replace(`{${paramName}}`, encodeURIComponent(paramValue));
-                        } 
-                        else {
-                            const urlObj = new URL(apiUrl, window.location.origin);
-                            urlObj.searchParams.set(paramName, paramValue);
-                            apiUrl = urlObj.pathname + urlObj.search;
+                        if(input){
+                            const paramName = input.id.replace('param-', '');
+                            let paramValue = input.value; // Jangan trim di sini agar spasi bisa jadi bagian value jika perlu
+
+                            if (paramName.startsWith('_') && paramValue.trim() === '') { // Cek trim() untuk opsional kosong
+                                return;
+                            }
+
+                            // Ganti placeholder di path
+                            const pathParamRegex = new RegExp(`{${paramName}}`, 'g');
+                            if (apiUrl.includes(`{${paramName}}`)) {
+                                apiUrl = apiUrl.replace(pathParamRegex, encodeURIComponent(paramValue));
+                            } else {
+                                // Tambahkan sebagai query param jika tidak ada di path
+                                queryParams.set(paramName, paramValue);
+                            }
                         }
                     });
                 }
-                const fullUrl = new URL(apiUrl, window.location.origin).href;
                 
+                // Gabungkan query params ke apiUrl
+                const finalUrlObj = new URL(apiUrl.startsWith('http') ? apiUrl : window.location.origin + apiUrl);
+                queryParams.forEach((value, key) => {
+                    finalUrlObj.searchParams.set(key, value);
+                });
+                const fullUrl = finalUrlObj.href;
+                
+                // Tampilkan URL yang akan di-request
                 const urlDisplayDiv = document.createElement('div');
-                urlDisplayDiv.className = 'urlDisplay mb-4 p-3 bg-gray-50 font-mono text-xs overflow-hidden';
-                
+                urlDisplayDiv.className = 'urlDisplay mb-4 p-3 bg-gray-900 font-mono text-xs overflow-auto rounded-md border border-gray-700';
                 const urlContent = document.createElement('div');
                 urlContent.className = 'break-all';
                 urlContent.textContent = fullUrl;
                 urlDisplayDiv.appendChild(urlContent);
-                
-                responseContainer.parentNode.insertBefore(urlDisplayDiv, responseContainer);
-                
-                responseData.innerHTML = 'Loading...';
+                modalContent.insertBefore(urlDisplayDiv, responseContainer); // Masukkan sebelum response container
                 
                 const requestOptions = {
-                    method: 'get',
+                    method: 'get', // Asumsi selalu GET, bisa diubah jika ada info method
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json' // Ini mungkin tidak selalu relevan untuk GET
                     }
                 };
                 
-                const response = await fetch(apiUrl, requestOptions);
+                const response = await fetch(fullUrl, requestOptions); // Gunakan fullUrl
                 const endTime = Date.now();
                 const duration = endTime - startTime;
                 
                 responseStatus.textContent = response.status;
-                responseStatus.className = response.ok 
-                    ? 'px-2 py-1 text-xs font-medium bg-green-100 text-green-800 mr-2'
-                    : 'px-2 py-1 text-xs font-medium bg-red-100 text-red-800 mr-2';
-                
+                responseStatus.className = `px-2 py-1 text-xs font-medium mr-2 rounded ${response.ok ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'}`;
                 responseTime.textContent = `${duration}ms`;
                 
                 const contentType = response.headers.get('content-type');
                 
-                if (contentType && (
-                    contentType.includes('image/') || 
-                    contentType.includes('video/') || 
-                    contentType.includes('audio/') ||
-                    contentType.includes('application/octet-stream')
-                )) {
+                if (contentType && (contentType.includes('image/') || contentType.includes('video/') || contentType.includes('audio/') || contentType.includes('application/octet-stream'))) {
                     const blob = await response.blob();
                     const objectUrl = URL.createObjectURL(blob);
-                    
                     if (contentType.includes('image/')) {
-                        responseData.innerHTML = `<img src='${objectUrl}' alt='Response Image' class='max-w-full h-auto' />`;
+                        responseData.innerHTML = `<img src='${objectUrl}' alt='Response Image' class='max-w-full h-auto rounded' />`;
                     } else if (contentType.includes('video/')) {
-                        responseData.innerHTML = `
-                            <video controls class='max-w-full'>
-                                <source src='${objectUrl}' type='${contentType}'>
-                                Your browser does not support the video tag.
-                            </video>`;
+                        responseData.innerHTML = `<video controls class='max-w-full rounded'><source src='${objectUrl}' type='${contentType}'>Your browser does not support the video tag.</video>`;
                     } else if (contentType.includes('audio/')) {
-                        responseData.innerHTML = `
-                            <audio controls class='w-full'>
-                                <source src='${objectUrl}' type='${contentType}'>
-                                Your browser does not support the audio tag.
-                            </audio>`;
+                        responseData.innerHTML = `<audio controls class='w-full'><source src='${objectUrl}' type='${contentType}'>Your browser does not support the audio tag.</audio>`;
                     } else {
-                        responseData.innerHTML = `
-                            <div class='text-center p-4'>
-                                <p class='mb-2'>Binary data received (${blob.size} bytes)</p>
-                                <a href='${objectUrl}' download='response-data' class='px-4 py-2 bg-blue-500 text-white hover:bg-blue-600'>Download File</a>
-                            </div>`;
+                        responseData.innerHTML = `<div class='text-center p-4'><p class='mb-2 text-gray-300'>Binary data received (${(blob.size / 1024).toFixed(2)} KB)</p><a href='${objectUrl}' download='response-data' class='inline-block px-4 py-2 bg-blue-600 text-white hover:bg-blue-500 rounded text-sm'>Download File</a></div>`;
                     }
                 } else if (contentType && contentType.includes('application/json')) {
                     const data = await response.json();
@@ -515,11 +509,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             } catch (error) {
                 const endTime = Date.now();
                 const duration = endTime - startTime;
-                
                 responseStatus.textContent = 'Error';
-                responseStatus.className = 'px-2 py-1 text-xs font-medium bg-red-100 text-red-800 mr-2';
+                responseStatus.className = 'px-2 py-1 text-xs font-medium bg-red-600 text-red-100 mr-2 rounded';
                 responseTime.textContent = `${duration}ms`;
-                responseData.innerHTML = `<pre class='text-red-500'>${error.message}</pre>`;
+                responseData.innerHTML = `<pre class='text-red-400 whitespace-pre-wrap break-words'>${error.message}\n\nPastikan server API berjalan dan endpoint dapat diakses.</pre>`;
             }
         };
     }

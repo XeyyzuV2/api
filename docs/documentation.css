@@ -1,0 +1,67 @@
+/* Styling for documentation.html - Inspired by Next.js/React dark themes */
+
+/* Body and general text styling will primarily use Tailwind classes in documentation.html
+   This file is for overrides or more complex/specific styles not easily achievable with Tailwind alone.
+*/
+
+/* Example: Customizing scrollbar for code blocks if Tailwind doesn't cover it well enough */
+pre code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+pre code::-webkit-scrollbar-track {
+    background: #1a202c; /* dark-gray-800 */
+}
+
+pre code::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* dark-gray-600 */
+    border-radius: 4px;
+    border: 2px solid #1a202c; /* dark-gray-800 */
+}
+
+/* Styling for links within documentation content */
+#main-content a {
+    color: #63b3ed; /* Tailwind's blue-400 */
+    text-decoration: none;
+}
+
+#main-content a:hover {
+    text-decoration: underline;
+}
+
+/* Specific styles for sections if needed */
+#main-content section {
+    border-bottom: 1px solid #2d3748; /* Tailwind's gray-700 */
+    padding-bottom: 2rem; /* Tailwind's pb-8 */
+}
+
+#main-content section:last-of-type {
+    border-bottom: none;
+}
+
+#main-content h2 {
+    margin-top: 1.5rem; /* Tailwind's mt-6 */
+}
+
+/* Ensure pre/code blocks have a good base style if not fully covered by Tailwind */
+pre {
+    background-color: #2d3748; /* Tailwind's gray-700 or a darker variant like gray-800 */
+    color: #e2e8f0; /* Tailwind's gray-200 or gray-300 */
+    padding: 1rem; /* Tailwind's p-4 */
+    border-radius: 0.375rem; /* Tailwind's rounded-md */
+    overflow-x: auto;
+}
+
+code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+/* Inline code snippets */
+p code, li code {
+    background-color: #4a5568; /* Tailwind's gray-600 */
+    color: #e2e8f0; /* Tailwind's gray-200 */
+    padding: 0.125rem 0.375rem; /* Tailwind's px-1.5 py-0.5ish */
+    border-radius: 0.25rem; /* Tailwind's rounded-sm */
+    font-size: 0.875em; /* Slightly smaller than surrounding text */
+}

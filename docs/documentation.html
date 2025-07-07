@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com"> <!-- Menggunakan Tailwind CSS yang sama untuk konsistensi awal -->
+    <link rel="stylesheet" href="/styles.css"> <!-- Gaya utama yang mungkin dimodifikasi -->
+    <link rel="stylesheet" href="/documentation.css"> <!-- CSS spesifik untuk halaman ini -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-gray-100 flex">
+    <!-- Navbar Kiri akan ditambahkan di langkah berikutnya melalui modifikasi index.html dan styles.css -->
+    <!-- Untuk saat ini, kita fokus pada konten halaman dokumentasi itu sendiri -->
+
+    <div id="main-content" class="flex-1 p-10">
+        <header class="mb-10">
+            <h1 class="text-4xl font-bold text-white">API Documentation</h1>
+            <p class="text-lg text-gray-400">Panduan lengkap untuk menggunakan API kami.</p>
+        </header>
+
+        <main>
+            <section id="introduction" class="mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-3">Pendahuluan</h2>
+                <p class="text-gray-300">
+                    Selamat datang di dokumentasi API kami. Di sini Anda akan menemukan semua informasi yang Anda butuhkan untuk berintegrasi dengan layanan kami.
+                </p>
+            </section>
+
+            <section id="getting-started" class="mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-3">Memulai</h2>
+                <p class="text-gray-300">
+                    Untuk memulai menggunakan API kami, Anda tidak memerlukan kunci API khusus untuk sebagian besar endpoint publik.
+                    Cukup buat permintaan HTTP ke endpoint yang relevan seperti yang dijelaskan di bawah ini.
+                </p>
+            </section>
+
+            <section id="basic-request" class="mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-3">Contoh Permintaan Dasar</h2>
+                <p class="text-gray-300 mb-2">
+                    Berikut adalah contoh cara membuat permintaan ke salah satu endpoint kami menggunakan JavaScript Fetch API:
+                </p>
+                <pre class="bg-gray-800 p-4 rounded-md text-sm overflow-x-auto"><code class="language-javascript">
+fetch('YOUR_API_ENDPOINT')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+                </code></pre>
+                <p class="text-gray-300 mt-2">
+                    Pastikan untuk mengganti <code class="bg-gray-700 px-1 rounded text-xs">'YOUR_API_ENDPOINT'</code> dengan URL endpoint yang sebenarnya.
+                </p>
+            </section>
+
+            <section id="status-codes" class="mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-3">Kode Status</h2>
+                <p class="text-gray-300">API kami menggunakan kode status HTTP konvensional untuk menunjukkan keberhasilan atau kegagalan permintaan API:</p>
+                <ul class="list-disc list-inside text-gray-300 ml-4">
+                    <li><code class="bg-green-700 px-1 rounded text-xs">200 OK</code> - Permintaan berhasil.</li>
+                    <li><code class="bg-red-700 px-1 rounded text-xs">400 Bad Request</code> - Permintaan tidak valid karena parameter yang salah atau hilang.</li>
+                    <li><code class="bg-red-700 px-1 rounded text-xs">404 Not Found</code> - Endpoint yang diminta tidak ditemukan.</li>
+                    <li><code class="bg-red-700 px-1 rounded text-xs">500 Internal Server Error</code> - Terjadi kesalahan di server kami.</li>
+                </ul>
+            </section>
+
+            <!-- Placeholder untuk bagian lain -->
+            <section id="more-info" class="mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-3">Informasi Lebih Lanjut</h2>
+                <p class="text-gray-300">
+                    Dokumentasi lebih detail untuk setiap endpoint spesifik dapat ditemukan di halaman utama <a href="/" class="text-blue-400 hover:underline">Daftar Endpoint</a>.
+                </p>
+            </section>
+        </main>
+
+        <footer class="mt-20 pt-5 border-t border-gray-700 text-center">
+            <p class="text-gray-500 text-sm">&copy; <span id="current-year"></span> <span id="footer-copyright-name">Nama Perusahaan Anda</span>. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Logic to set current year and copyright name will be handled by main script.js
+        // document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

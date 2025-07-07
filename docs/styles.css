@@ -1,13 +1,112 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif; /* Changed font to Inter for a more modern feel */
+    display: flex;
+    min-height: 100vh;
+    background-color: #111827; /* bg-gray-900 from Tailwind */
+    color: #d1d5db; /* text-gray-300 from Tailwind */
+    margin: 0; /* Ensure no default margin */
 }
 
 body.noscroll {
     overflow: hidden;
 }
 
+/* Left Navbar Styling */
+#left-navbar {
+    width: 240px;
+    background-color: #1f2937; /* bg-gray-800 */
+    padding: 1.5rem; /* p-6 */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    border-right: 1px solid #374151; /* border-gray-700 */
+    display: flex;
+    flex-direction: column; /* To push footer links to bottom */
+}
+
+#left-navbar .nav-header { /* For API Name/Icon */
+    margin-bottom: 2rem; /* More space below header */
+}
+
+#left-navbar .nav-header a {
+    display: flex;
+    align-items: center;
+    color: #ffffff; /* text-white */
+    text-decoration: none;
+}
+
+#left-navbar #nav-api-icon {
+    height: 2rem; /* h-8 */
+    width: 2rem; /* w-8 */
+    margin-right: 0.75rem; /* mr-3 */
+}
+
+#left-navbar #nav-api-name {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+}
+
+#left-navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Allows .nav-footer to be pushed down */
+}
+
+#left-navbar .nav-link {
+    display: block;
+    padding: 0.75rem 1rem; /* py-3 px-4 */
+    color: #9ca3af; /* text-gray-400 */
+    border-radius: 0.375rem; /* rounded-md */
+    margin-bottom: 0.5rem; /* mb-2 */
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500; /* medium */
+    text-decoration: none;
+}
+
+#left-navbar .nav-link:hover,
+#left-navbar .nav-link.active { /* Assuming 'active' class will be set by JS or on current page */
+    background-color: #374151; /* bg-gray-700 */
+    color: #ffffff; /* text-white */
+}
+
+#left-navbar .nav-link i { /* Font Awesome icons */
+    margin-right: 0.75rem; /* mr-3 */
+    width: 1.25em; /* Ensure icons align well */
+    text-align: center;
+}
+
+#left-navbar .nav-footer { /* For external links at the bottom */
+    margin-top: auto; /* Pushes to the bottom */
+    padding-top: 1.5rem; /* pt-6 */
+    border-top: 1px solid #374151; /* border-gray-700 */
+}
+
+#left-navbar #nav-api-links a {
+    color: #9ca3af; /* text-gray-400 */
+    font-size: 0.875rem; /* text-xs */
+    padding: 0.25rem 0;
+    display: block;
+}
+#left-navbar #nav-api-links a:hover {
+    color: #ffffff; /* text-white */
+}
+
+
+/* Main Content Area Styling */
+#main-content-area {
+    margin-left: 240px; /* Should match #left-navbar width */
+    flex-grow: 1;
+    padding: 2.5rem; /* Increased padding p-10 */
+    overflow-y: auto; /* Allow scrolling for content area only */
+    height: 100vh; /* Ensure it takes full viewport height for scrolling */
+}
+
+/* Page Loader */
 .page-loader {
     position: fixed;
     top: 0;
@@ -17,16 +116,17 @@ body.noscroll {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 15;
-    transition: opacity 0.1s ease-out;
+    z-index: 9999; /* Ensure it's on top */
+    background-color: #111827; /* bg-gray-900 */
+    transition: opacity 0.3s ease-out;
 }
 
 .loader {
     width: 40px;
     height: 40px;
-    border: 5px solid #f3f3f3;
+    border: 5px solid #374151; /* border-gray-700 */
     border-radius: 50%;
-    border-top: 5px solid #333;
+    border-top: 5px solid #60a5fa; /* blue-400 for spinner color */
     animation: spin 1s linear infinite;
 }
 
@@ -35,6 +135,139 @@ body.noscroll {
     100% { transform: rotate(360deg); }
 }
 
-#response-data::-webkit-scrollbar {
-    display: none !important;
+/* Styling for API items in #api-content, dark theme adjustments */
+#api-content .row .w-full { /* This is the itemDiv */
+    background-color: #1f2937; /* bg-gray-800 */
+    border: 1px solid #374151; /* border-gray-700 */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.2); /* Adjusted shadow for dark theme */
+}
+
+#api-content .heroSection { /* This is the flex items-center justify-between part */
+    background-color: transparent; /* No need for bg-gray-50 as parent is dark */
+    padding: 1rem 1.5rem; /* p-4 px-6 */
+    box-shadow: none; /* Removed shadow from here */
+    min-height: 5rem; /* h-20 */
+}
+
+#api-content .heroSection h5 { /* title */
+    color: #e5e7eb; /* text-gray-200 */
+}
+
+#api-content .heroSection p { /* description */
+    color: #9ca3af; /* text-gray-400 */
+}
+
+#api-content .heroSection button.get-api-btn { /* TRY button */
+    background-color: #3b82f6; /* bg-blue-600 */
+    color: white;
+}
+#api-content .heroSection button.get-api-btn:hover {
+    background-color: #2563eb; /* bg-blue-700 */
+}
+
+
+/* Modal Dark Theme Adjustments (already partially done in HTML, this is to ensure CSS consistency) */
+#api-modal .relative.z-10 { /* Modal content box */
+    background-color: #1f2937; /* bg-gray-800 */
+    border: 1px solid #374151; /* border-gray-700 */
+}
+
+#api-modal #modal-title, #api-modal #response-container h4 {
+    color: #ffffff; /* text-white */
+}
+
+#api-modal #api-description, #api-modal #response-time {
+    color: #9ca3af; /* text-gray-400 */
+}
+
+#api-modal input[type='text'] {
+    background-color: #374151; /* bg-gray-700 */
+    color: #e5e7eb; /* text-gray-200 */
+    border-color: #4b5563; /* border-gray-600 */
+}
+#api-modal input[type='text']::placeholder {
+    color: #9ca3af; /* text-gray-400 */
+}
+#api-modal input[type='text']:focus {
+    border-color: #3b82f6; /* border-blue-500 */
+    --tw-ring-color: #3b82f6; /* ring-blue-500 */
+}
+
+
+#api-modal #submit-api {
+    background-color: #3b82f6; /* bg-blue-600 */
+}
+#api-modal #submit-api:hover {
+    background-color: #2563eb; /* bg-blue-700 */
+}
+
+#api-modal #response-data {
+    background-color: #111827; /* bg-gray-900 */
+    color: #d1d5db; /* text-gray-300 */
+    border: 1px solid #374151; /* border-gray-700 */
+}
+#api-modal #response-data::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#api-modal #response-data::-webkit-scrollbar-track {
+    background: #1f2937; /* bg-gray-800 */
+}
+
+#api-modal #response-data::-webkit-scrollbar-thumb {
+    background-color: #4b5563; /* bg-gray-600 */
+    border-radius: 4px;
+    border: 2px solid #1f2937; /* bg-gray-800 */
+}
+
+/* Search input dark theme */
+#api-search {
+    background-color: #1f2937; /* bg-gray-800 */
+    color: #e5e7eb; /* text-gray-200 */
+    border-color: #374151; /* border-gray-700 */
+}
+#api-search::placeholder {
+    color: #9ca3af; /* text-gray-400 */
+}
+#api-search:focus {
+    border-color: #3b82f6; /* border-blue-500 */
+    --tw-ring-color: #3b82f6; /* ring-blue-500 */
+}
+
+/* Banner dark theme */
+#banner {
+    background-color: #1f2937; /* bg-gray-800 */
+    border-color: #374151; /* border-gray-700 */
+}
+#banner #api-name-main {
+    color: #ffffff; /* text-white */
+}
+#banner #api-author {
+    background-color: #374151; /* bg-gray-700 */
+    color: #d1d5db; /* text-gray-300 */
+}
+#banner #api-desc-main {
+    color: #9ca3af; /* text-gray-400 */
+}
+#banner #api-copyright {
+    color: #6b7280; /* text-gray-500 */
+}
+#banner #api-info-main, #banner a {
+    color: #9ca3af; /* text-gray-400 */
+}
+#banner #api-info-main:hover, #banner a:hover {
+    color: #e5e7eb; /* text-gray-200 */
+}
+
+
+/* Ensure category headers are visible in dark theme */
+#api-content h3 {
+    color: #e5e7eb; /* text-gray-200 */
+    margin-bottom: 1rem; /* mb-4 */
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+    padding-bottom: 0.5rem; /* pb-2 */
+    border-bottom: 1px solid #374151; /* border-gray-700 */
 }
